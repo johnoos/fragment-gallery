@@ -1,0 +1,10 @@
+# Build output
+_site/
+
+# Dependency folders
+node_modules/
+.cache/
+.11ty-cache/
+
+# Mac system files
+.DS_Store

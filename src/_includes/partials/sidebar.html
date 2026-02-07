@@ -1,0 +1,15 @@
+<nav class="side-rail">
+  <ul class="side-rail__list">
+    {% for item in navigation %}
+    <li class="side-rail__item">
+      <button hx-get="/fragments/{{ item.slug }}/" 
+              hx-target="#content-panel-container" 
+              hx-push-url="/{{ item.slug }}/"
+              hx-swap="innerHTML transition:true"
+              class="side-rail__link">
+        {{ item.displayname }}
+      </button>
+    </li>
+    {% endfor %}
+  </ul>
+</nav>

@@ -1,0 +1,13 @@
+<div class="doc-card">
+  <div class="doc-card__header">
+    <h3 class="doc-card__title">{{ item.displayname }}</h3>
+    <p class="doc-card__meta">{{ item.institution }} ({{ item.year }})</p>
+  </div>
+  <div class="doc-card__preview">
+    <img src="/assets/img/previews/{{ item.filename }}.png" alt="{{ item.displayname }}">
+  </div>
+  <div class="doc-card__actions">
+    <button class="btn btn--view" data-file="/assets/pdfs/{{ item.filename }}.pdf">View</button>
+    <a href="/assets/pdfs/{{ item.filename }}.pdf" download class="btn btn--download">Download</a>
+  </div>
+</div>

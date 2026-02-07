@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title or "Fragment Gallery" }}</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- Local HTMX reference: stable and fast -->
+    <script src="/assets/js/htmx.min.js"></script>
+</head>
+<body>
+    {% include "partials/header.html" %}
+
+    <div class="middle-wrapper">
+        <aside class="navigation-rail">
+            {% include "partials/sidebar.html" %}
+        </aside>
+
+        {# This is the ONLY place content enters the shell #}
+        <main id="content-panel-container" class="workspace">
+            {% block main %}{% endblock %}
+        </main>
+    </div>
+
+    {% include "partials/footer.html" %}
+</body>
+</html>

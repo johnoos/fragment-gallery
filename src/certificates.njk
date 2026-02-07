@@ -1,0 +1,9 @@
+---
+layout: layouts/base.njk
+title: "Academic Certificates"
+---
+{% block main %}
+  {# Set the collection manually for the initial page load #}
+  {% set collection = portfolios.certificates %}
+  {% include "partials/document-grid.html" %}
+{% endblock %}

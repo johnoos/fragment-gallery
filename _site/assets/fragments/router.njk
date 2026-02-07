@@ -1,0 +1,15 @@
+---
+pagination:
+  data: navigation
+  size: 1
+  alias: menu_item
+permalink: "/fragments/{{ menu_item.slug }}/"
+layout: null
+---
+{# 1. Grab the specific data collection (e.g., certificates) #}
+{% set collection = portfolios[menu_item.datasource] %}
+
+{# 2. Inject the Pattern #}
+{% if menu_item.pattern == "document-grid" %}
+    {% include "partials/document-grid.html" %}
+{% endif %}

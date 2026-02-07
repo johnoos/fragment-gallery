@@ -1,0 +1,13 @@
+{
+  "name": "fragment-gallery",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "eleventy --serve",
+    "build": "eleventy"
+  },
+  "dependencies": {
+    "@11ty/eleventy": "^3.0.0",
+    "htmx.org": "^1.9.10"
+  }
+}
