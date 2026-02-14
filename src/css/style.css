@@ -1,9 +1,129 @@
-:root { --bg: #f4f4f4; --card-bg: #ffffff; }
+:root { 
+  --bg: #f4f4f4; 
+  --card-bg: #ffffff;
+  --border-color: hsl(0, 0%, 18%);
+  --view-button-gray: hsl(0, 1%, 84%);
+  --download-button-blue: hsla(211, 71%, 68%, 0.333);
+}
+
+.top-panel-style {
+  /* background: var(--bg-color); */
+  height: 120px;
+  margin: 0;
+  Padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  z-index: 10;
+}
+
+.top-panel-table-style {
+  border: none; 
+  margin: 0 auto; 
+  padding: 0; 
+  border-collapse: separate;
+}
+
+.logo {
+  width: 110px; 
+  display: flex; 
+  justify-content: center; /* Vertical center */
+}
+
+.title-lines {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Vertical center */
+  align-items: left;    
+}
+
+.title-line-1 {
+  "font-size: 20px;"
+}
+
+.title-line-2 {
+  "font-size: 28px;"
+}
+
 body { font-family: system-ui, sans-serif; margin: 0; display: flex; flex-direction: column; min-height: 100vh; }
 
 .middle-wrapper { display: flex; flex: 1; }
-.navigation-rail { width: 250px; background: #2c3e50; color: white; padding: 20px; }
-.workspace { flex: 1; background: var(--bg); padding: 20px; }
+
+.navigation-rail-container { width: 250px; background: #2c3e50; color: white; padding: 20px; }
+
+/* If any child element is making a request, "freeze" the whole sidebar */
+.navigation-rail-container:has(.htmx-request) {
+    pointer-events: none;
+    filter: grayscale(0.5); /* Optional: desaturate to show 'busy' state */
+}
+
+.workspace-container { 
+  flex: 1; background: var(--bg); padding: 20px; 
+  /* 1. Define the transition on your target container */
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* 2. Style for the element while htmx is swapping content */
+.htmx-swapping #workspace-container {
+    opacity: 0;
+}
+
+/* 3. Style for the element when new content is added but not yet "settled" */
+.htmx-added #workspace-container {
+    opacity: 0;
+}
+
+/* 1. Basic Spinner Styling */
+.loader {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #FFF;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 8px;
+  animation: rotation 1s linear infinite;
+}
+
+/* 2. Rotation Animation */
+@keyframes rotation {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* 3. Ensuring htmx handles the toggle correctly */
+.htmx-indicator {
+  display: none; /* Hide completely when not in use */
+}
+
+.htmx-request .htmx-indicator,
+.htmx-request.htmx-indicator {
+  display: inline-block; /* Show only during the request */
+}
+
+/* Disable the button and dim it while the request is live */
+.navigation-rail-container__link.htmx-request {
+    pointer-events: none; /* Prevents further clicks */
+    opacity: 0.6;         /* Visual feedback that it's busy */
+    cursor: not-allowed;
+}
+
+.navigation-rail-container__list {  /* use to be .sidebar-panel-style */
+  list-style-type: none;            /* Removes the bullets */
+  padding: 0;                       /* Removes default left padding */
+  text-align: left;
+  margin: 15px;                     /* Increases spacing around the items */
+  flex: 0 0 230px;                  /* Keep original width */
+}
+
+.navigation-rail-container__item {
+  color: #000000 !important;
+  text-decoration: none;
+  font-size: 1.0rem;                /* Matches sidebar container size */
+  line-height: 1.5;
+}
 
 .doc-gallery { 
   display: flex; 
@@ -21,3 +141,25 @@ body { font-family: system-ui, sans-serif; margin: 0; display: flex; flex-direct
 }
 
 .doc-card__image { width: 100%; height: auto; border: 1px solid #eee; }
+
+/* --- MENU BUTTON STYLE --- */
+/* Add this so the button only shows on mobile */
+.menu-toggle {
+    display: none;
+    padding: 10px 20px;
+    background: var(--download-button-blue);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-left: 15px;
+}
+
+@media screen and (max-width: 768px) {
+    .menu-toggle {
+        display: block; /* Show only on mobile */
+    }
+    .title-lines {
+      line-height: 1.05;
+    }
+}

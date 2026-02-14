@@ -1,8 +1,0 @@
-[
-  {
-    "displayname": "Academic Certificates",
-    "slug": "certificates",
-    "pattern": "document-grid",
-    "datasource": "certificates"
-  }
-]

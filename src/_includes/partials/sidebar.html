@@ -1,14 +1,23 @@
-<nav class="side-rail">
-  <ul class="side-rail__list">
-    {% for item in navigation %}
-    <li class="side-rail__item">
-      <button hx-get="/fragments/{{ item.slug }}/" 
+<nav class="navigation-rail-container">
+  <ul class="navigation-rail-container__list">
+    {# Loop over the top-level 'sidebar' array, NOT the flattened 'alldocs' #}
+    {% for item in sidebar %}
+    <li class="navigation-rail-container__item">
+      
+      {# Determine the HTMX 'route' based on the item type #}
+      {% set targetUrl = "/fragments/category/" + item.slug + "/" if item.type == "grid" else "/fragments/view/" + item.slug + "/" %}
+      {% set pushUrl = "/" + item.slug + "/" %}
+
+      <button hx-get="{{ targetUrl }}" 
               hx-target="#content-panel-container" 
-              hx-push-url="/{{ item.slug }}/"
+              hx-push-url="{{ pushUrl }}"
               hx-swap="innerHTML transition:true"
-              class="side-rail__link">
-        {{ item.displayname }}
+              hx-indicator="#spinner"
+              class="navigation-rail-container__link">
+        {{ item.title }}
+        <div id="spinner" class="htmx-indicator loader"></div>
       </button>
+      
     </li>
     {% endfor %}
   </ul>

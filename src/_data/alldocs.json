@@ -1,0 +1,55 @@
+[
+  {
+    "menuItem": "Academic certificates",
+    "m-i-slug": "certificates",
+    "type": "grid",
+    "documents": [
+      {"docTitle": "PhD (Music), Stellenbosch University (2025)", "docSlug": "cert-phd"},
+      {"docTitle": "MMus (Organ), Stellenbosch University (2022)", "docSlug": "cert-mmus"},
+      {"docTitle": "BMusHons (cum laude) Stellenbosch University (2019)", "docSlug": "cert-honours"},
+      {"docTitle": "Advanced Music Theory, University of North Carolina (Greensboro) (2020)", "docSlug": "cert-uncg"},
+      {"docTitle": "BSc (Math, Comp Sc), University of KwaZulu-Natal (1975)", "docSlug": "cert-ukzn"},
+      {"docTitle": "ATCL Piano (1975)", "docSlug": "cert-atcl"},
+      {"docTitle": "Trinity College Grade 8 (Organ) (2018)", "docSlug": "cert-tcl8"} 
+      
+    ]
+  },
+  {
+    "menuItem": "Academic transcripts",
+    "m-i-slug":  "transcripts",
+    "type":  "grid",
+    "documents": [
+      {"docTitle": "Stellenbosch University", "docSlug": "doc-transcript-su"},
+      {"docTitle": "University of North Carolina at Greensboro", "docSlug": "doc-transcript-uncg"} 
+    ]
+  },
+  {
+    "menuItem": "Theses",
+    "m-i-slug":  "theses",
+    "type":  "grid",
+    "documents": [
+      {"docTitle": "PhD Music (2025)", "docSlug": "doc-phd"},
+      {"docTitle": "MMus Organ (2022)", "docSlug": "doc-mmus"},
+      {"docTitle": "BMusHons (2022)", "docSlug": "doc-honours"}
+    ]
+  },
+  {
+    "menuItem": "Publications",
+    "m-i-slug": "publications",
+    "type": "grid",
+    "documents": [
+      {"docTitle": "VisualAge for Smalltalk (1997)", "docSlug": "doc-visualage-for-smalltalk"},
+      {"docTitle": "Cooperative Processin in an AS/400 Environment", "docSlug": "doc-coop-processing"},
+      {"docTitle": "Client Access/400 APIs", "docSlug": "doc-client-access-400"}
+    ]
+  },
+  {
+    "menuItem": "PhD-examiner-reports",
+    "m-i-slug": "reports",
+    "type": "grid",
+    "documents": [
+      {"docTitle": "Dr. Antoni Schonken", "docSlug": "doc-antoni"},
+      {"docTitle": "Prof. Theo Van Wyk", "docSlug": "doc-theo"}
+    ]
+  }
+]

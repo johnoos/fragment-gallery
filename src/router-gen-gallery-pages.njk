@@ -1,0 +1,20 @@
+---
+pagination:
+  data: alldocs
+  size: 1
+  alias: doc-category
+permalink: "/doc-category/{{ doc-category.MenuItemSlug }}/"
+---
+<div class="doc-gallery">
+    {% set collection = alldocs[doc-category.documents] %}
+    {% for doc in collection %}
+    <div class="card">
+      <h3>{{ doc.docTitle }}</h3>
+      <img src="/assets/img/previews/{{ doc.docSlug }}.png" alt="{{ doc.docSlug }} preview" class="doc-card">
+      <a href="/assets/pdfs/{{ doc.docSlug }}.pdf/" class="btn">View</a>
+      <a href="/assets/pdfs/{{ doc.docSlug }}.pdf/" download class="btn">Download</a>
+    </div>
+  {% endfor %}
+</div>
+
+
