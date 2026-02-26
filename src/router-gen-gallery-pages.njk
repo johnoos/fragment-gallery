@@ -1,13 +1,13 @@
 ---
 pagination:
-  data: alldocs
+  data: menuItemsWithDocuments
   size: 1
-  alias: doc-category
-permalink: "/doc-category/{{ doc-category.MenuItemSlug }}/"
+  alias: menuItem
+permalink: "/menuItemPage/{{ menuItem.menuItemSlug }}/"
 ---
 <div class="doc-gallery">
-    {% set collection = alldocs[doc-category.documents] %}
-    {% for doc in collection %}
+  {% set docs = menuItem.documents %}
+  {% for doc in docs %}
     <div class="card">
       <h3>{{ doc.docTitle }}</h3>
       <img src="/assets/img/previews/{{ doc.docSlug }}.png" alt="{{ doc.docSlug }} preview" class="doc-card">

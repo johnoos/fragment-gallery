@@ -1,24 +1,42 @@
 <nav class="navigation-rail-container">
   <ul class="navigation-rail-container__list">
-    {# Loop over the top-level 'sidebar' array, NOT the flattened 'alldocs' #}
-    {% for item in sidebar %}
+    {% for menuItem in menuItemsWithDocuments %}
     <li class="navigation-rail-container__item">
-      
-      {# Determine the HTMX 'route' based on the item type #}
-      {% set targetUrl = "/fragments/category/" + item.slug + "/" if item.type == "grid" else "/fragments/view/" + item.slug + "/" %}
-      {% set pushUrl = "/" + item.slug + "/" %}
+      {% set targetUrl = "/fragments/category/" + menuItem.menuItemSlug + "/" %}
+      {% set pushUrl = "/" + menuItem.menuItemSlug + "/" %}
 
-      <button hx-get="{{ targetUrl }}" 
-              hx-target="#content-panel-container" 
-              hx-push-url="{{ pushUrl }}"
-              hx-swap="innerHTML transition:true"
-              hx-indicator="#spinner"
-              class="navigation-rail-container__link">
-        {{ item.title }}
-        <div id="spinner" class="htmx-indicator loader"></div>
+      <button data-fragment="{{ targetUrl }}" 
+              data-push="{{ pushUrl }}"
+              class="nav-trigger navigation-rail-container__link">
+        {{ menuItem.menuItemTitle }}
+        <div class="loader spinner" style="display: none;"></div>
       </button>
       
     </li>
     {% endfor %}
   </ul>
 </nav>
+<script>
+  // Use a self-executing check to prevent duplicate listeners
+  if (!window.navListenerAttached) {
+    document.addEventListener('click', async (e) => {
+      const btn = e.target.closest('.nav-trigger');
+      if (!btn) return;
+      
+      e.preventDefault();
+      const target = document.querySelector('#workspace-container');
+      
+      try {
+        const res = await fetch(btn.dataset.fragment);
+        target.innerHTML = await res.text();
+        history.pushState({}, '', btn.dataset.push);
+      } catch (err) {
+        console.error("Fetch error:", err);
+      }
+    });
+    
+    window.navListenerAttached = true;
+    // Now you can use button.dataset.fragment or button.dataset.push
+    console.log("Fetching from:", button.dataset.fragment);
+  }
+</script>

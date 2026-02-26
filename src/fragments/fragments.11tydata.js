@@ -1,3 +1,6 @@
+// see the following link for a description of the purpose of this file:
+// https://share.google/aimode/KM1alNmkOC7hbj57O
+
 export default {
   layout: null,
   eleventyComputed: {

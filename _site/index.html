@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fragment Gallery</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- Local HTMX reference: stable and fast -->
+    <script src="/assets/js/htmx.js"></script>
+</head>
+<body>
+    <header id="top-panel-container" class="top-panel-style">
+  <table class="top-panel-table-style">
+    <tr>
+      <td><img src="/assets/img/logo.png" alt="Logo" class="logo"></td> <!-- col 1 = logo -->
+      <td style="width: 15px;"></td>                                <!-- col2 = spacer -->
+      <td class="title-lines">
+        <div class="title-line-1">Dr. John Oosthuizen</div>
+        <div class="title-line-2">Academic Portfolio</div>
+      </td>
+      <td>
+        <button class="menu-toggle" onclick="toggleMenu()">☰ Menu</button>
+      </td>
+    </tr>
+  </table>
+</header>
+
+    <div class="middle-wrapper">
+        <aside class="navigation-rail-container">
+            <nav class="navigation-rail-container">
+  <ul class="navigation-rail-container__list">
+    
+    <li class="navigation-rail-container__item">
+      
+      
+
+      <button data-fragment="/fragments/category/cv/" 
+              data-push="/cv/"
+              class="nav-trigger navigation-rail-container__link">
+        CV
+        <div class="loader spinner" style="display: none;"></div>
+      </button>
+      
+    </li>
+    
+    <li class="navigation-rail-container__item">
+      
+      
+
+      <button data-fragment="/fragments/category/certificates/" 
+              data-push="/certificates/"
+              class="nav-trigger navigation-rail-container__link">
+        Academic certificates
+        <div class="loader spinner" style="display: none;"></div>
+      </button>
+      
+    </li>
+    
+    <li class="navigation-rail-container__item">
+      
+      
+
+      <button data-fragment="/fragments/category/transcripts/" 
+              data-push="/transcripts/"
+              class="nav-trigger navigation-rail-container__link">
+        Academic transcripts
+        <div class="loader spinner" style="display: none;"></div>
+      </button>
+      
+    </li>
+    
+    <li class="navigation-rail-container__item">
+      
+      
+
+      <button data-fragment="/fragments/category/theses/" 
+              data-push="/theses/"
+              class="nav-trigger navigation-rail-container__link">
+        Theses
+        <div class="loader spinner" style="display: none;"></div>
+      </button>
+      
+    </li>
+    
+    <li class="navigation-rail-container__item">
+      
+      
+
+      <button data-fragment="/fragments/category/publications/" 
+              data-push="/publications/"
+              class="nav-trigger navigation-rail-container__link">
+        Publications
+        <div class="loader spinner" style="display: none;"></div>
+      </button>
+      
+    </li>
+    
+    <li class="navigation-rail-container__item">
+      
+      
+
+      <button data-fragment="/fragments/category/reports/" 
+              data-push="/reports/"
+              class="nav-trigger navigation-rail-container__link">
+        PhD-examiner-reports
+        <div class="loader spinner" style="display: none;"></div>
+      </button>
+      
+    </li>
+    
+  </ul>
+</nav>
+<script>
+  // Use a self-executing check to prevent duplicate listeners
+  if (!window.navListenerAttached) {
+    document.addEventListener('click', async (e) => {
+      const btn = e.target.closest('.nav-trigger');
+      if (!btn) return;
+      
+      e.preventDefault();
+      const target = document.querySelector('#workspace-container');
+      
+      try {
+        const res = await fetch(btn.dataset.fragment);
+        target.innerHTML = await res.text();
+        history.pushState({}, '', btn.dataset.push);
+      } catch (err) {
+        console.error("Fetch error:", err);
+      }
+    });
+    
+    window.navListenerAttached = true;
+    // Now you can use button.dataset.fragment or button.dataset.push
+    console.log("Fetching from:", button.dataset.fragment);
+  }
+</script>
+        </aside>
+
+        
+        <main id="content-panel-container" class="workspace-container">
+            
+        <h1>Welcome</h1>
+        <p>Select a document category from the sidebar to begin.</p>
+
+        </main>
+    </div>
+
+    <footer class="footer">
+  <div class="footer-style">
+      <p style="text-align: center; margin-bottom: 0px;">© 2026 Dr. John Oosthuizen. All rights reserved.</p>
+      <p style="text-align: center; margin-top: 2px;">February 2026</p>
+  </div>
+</footer>
+</body>
+</html>

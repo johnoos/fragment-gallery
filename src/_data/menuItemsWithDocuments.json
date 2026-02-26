@@ -1,8 +1,13 @@
 [
   {
-    "menuItem": "Academic certificates",
-    "m-i-slug": "certificates",
-    "type": "grid",
+    "menuItemTitle": "CV",
+    "menuItemSlug": "cv",
+    "menuItemType": "single"
+  },
+  {
+    "menuItemTitle": "Academic certificates",
+    "menuItemSlug": "certificates",
+    "menuItemType": "grid",
     "documents": [
       {"docTitle": "PhD (Music), Stellenbosch University (2025)", "docSlug": "cert-phd"},
       {"docTitle": "MMus (Organ), Stellenbosch University (2022)", "docSlug": "cert-mmus"},
@@ -11,22 +16,21 @@
       {"docTitle": "BSc (Math, Comp Sc), University of KwaZulu-Natal (1975)", "docSlug": "cert-ukzn"},
       {"docTitle": "ATCL Piano (1975)", "docSlug": "cert-atcl"},
       {"docTitle": "Trinity College Grade 8 (Organ) (2018)", "docSlug": "cert-tcl8"} 
-      
     ]
   },
   {
-    "menuItem": "Academic transcripts",
-    "m-i-slug":  "transcripts",
-    "type":  "grid",
+    "menuItemTitle": "Academic transcripts",
+    "menuItemSlug":  "transcripts",
+    "menuItemType":  "grid",
     "documents": [
       {"docTitle": "Stellenbosch University", "docSlug": "doc-transcript-su"},
       {"docTitle": "University of North Carolina at Greensboro", "docSlug": "doc-transcript-uncg"} 
     ]
   },
   {
-    "menuItem": "Theses",
-    "m-i-slug":  "theses",
-    "type":  "grid",
+    "menuItemTitle": "Theses",
+    "menuItemSlug":  "theses",
+    "menuItemType":  "grid",
     "documents": [
       {"docTitle": "PhD Music (2025)", "docSlug": "doc-phd"},
       {"docTitle": "MMus Organ (2022)", "docSlug": "doc-mmus"},
@@ -34,9 +38,9 @@
     ]
   },
   {
-    "menuItem": "Publications",
-    "m-i-slug": "publications",
-    "type": "grid",
+    "menuItemTitle": "Publications",
+    "menuItemSlug": "publications",
+    "menuItemType": "grid",
     "documents": [
       {"docTitle": "VisualAge for Smalltalk (1997)", "docSlug": "doc-visualage-for-smalltalk"},
       {"docTitle": "Cooperative Processin in an AS/400 Environment", "docSlug": "doc-coop-processing"},
@@ -44,9 +48,9 @@
     ]
   },
   {
-    "menuItem": "PhD-examiner-reports",
-    "m-i-slug": "reports",
-    "type": "grid",
+    "menuItemTitle": "PhD-examiner-reports",
+    "menuItemSlug": "reports",
+    "menuItemType": "grid",
     "documents": [
       {"docTitle": "Dr. Antoni Schonken", "docSlug": "doc-antoni"},
       {"docTitle": "Prof. Theo Van Wyk", "docSlug": "doc-theo"}
