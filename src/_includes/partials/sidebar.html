@@ -1,14 +1,14 @@
-<nav class="navigation-rail-container">
-  <ul class="navigation-rail-container__list">
+<nav class="navigation-rail-container-style">
+  <ul class="navigation-rail-container-style__list">
     {% for menuItem in menuItemsWithDocuments %}
-    <li class="navigation-rail-container__item">
+    <li class="navigation-rail-container-style__item">
       {% set targetUrl = "/menuItemPage/" + menuItem.menuItemSlug + "/" %}
       {% set pushUrl = "/" + menuItem.menuItemSlug + "/" %}
 
       {# Removed id="menuItemClicked" because IDs must be unique in a loop #}
       <button data-fragment="{{ targetUrl }}" 
               data-push="{{ pushUrl }}"
-              class="nav-trigger navigation-rail-container__link">
+              class="nav-trigger navigation-rail-container-style__link">
         {{ menuItem.menuItemTitle }}
         <div class="loader spinner" style="display: none;"></div>
       </button>
@@ -38,7 +38,7 @@
           const targetContainer = document.querySelector('#content-panel-container');
           
           if (!targetContainer) {
-            console.error("Target #workspace-container not found on this page.");
+            console.error("Target #content-panel-container not found on this page.");
             return;
           }
       

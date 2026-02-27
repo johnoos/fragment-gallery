@@ -38,39 +38,35 @@
   align-items: left;    
 }
 
-.title-line-1 {
-  font-size: 20px;
-}
+.title-line-1 { font-size: 20px; }
 
-.title-line-2 {
-  font-size: 28px;
-}
+.title-line-2 { font-size: 28px; }
 
 body { font-family: system-ui, sans-serif; margin: 0; display: flex; flex-direction: column; min-height: 100vh; }
 
 .middle-wrapper { display: flex; flex: 1; }
 
-.navigation-rail-container { width: 250px; background: #2c3e50; color: white; padding: 20px; }
+.navigation-rail-container-style { width: 250px; background: #2c3e50; color: white; padding: 20px; }
 
 /* If any child element is making a request, "freeze" the whole sidebar */
-.navigation-rail-container:has(.htmx-request) {
+.navigation-rail-container-style:has(.htmx-request) {
     pointer-events: none;
     filter: grayscale(0.5); /* Optional: desaturate to show 'busy' state */
 }
 
-.workspace-container { 
+.content-panel-container-style { 
   flex: 1; background: var(--bg); padding: 20px; 
   /* 1. Define the transition on your target container */
     transition: opacity 0.3s ease-in-out;
 }
 
 /* 2. Style for the element while htmx is swapping content */
-.htmx-swapping #workspace-container {
+.htmx-swapping #content-panel-container-style {
     opacity: 0;
 }
 
 /* 3. Style for the element when new content is added but not yet "settled" */
-.htmx-added #workspace-container {
+.htmx-added #content-panel-container-style {
     opacity: 0;
 }
 
@@ -104,13 +100,13 @@ body { font-family: system-ui, sans-serif; margin: 0; display: flex; flex-direct
 }
 
 /* Disable the button and dim it while the request is live */
-.navigation-rail-container__link.htmx-request {
+.navigation-rail-container-style__link.htmx-request {
     pointer-events: none; /* Prevents further clicks */
     opacity: 0.6;         /* Visual feedback that it's busy */
     cursor: not-allowed;
 }
 
-.navigation-rail-container__list {  /* use to be .sidebar-panel-style */
+.navigation-rail-container-style__list {  /* use to be .sidebar-panel-style */
   list-style-type: none;            /* Removes the bullets */
   padding: 0;                       /* Removes default left padding */
   text-align: left;
@@ -118,11 +114,11 @@ body { font-family: system-ui, sans-serif; margin: 0; display: flex; flex-direct
   flex: 0 0 230px;                  /* Keep original width */
 }
 
-.navigation-rail-container__item {
+.navigation-rail-container-style__item {
   color: #000000 !important;
   text-decoration: none;
   font-size: 1.0rem;                /* Matches sidebar container size */
-  line-height: 1.5;
+  line-height: 1.5; 
 }
 
 .doc-gallery { 
@@ -135,12 +131,42 @@ body { font-family: system-ui, sans-serif; margin: 0; display: flex; flex-direct
   flex: 1 1 300px; 
   max-width: 400px; 
   background: var(--card-bg); 
-  border-radius: 8px; 
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column; 
   padding: 15px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-.doc-card__image { width: 100%; height: auto; border: 1px solid #eee; }
+.doc-card__image { width: 100%; height: auto; }
+
+.btn-area { margin: 10px; width: 100%; text-align: center; }
+
+/* Button Styles */
+.btn-view, .btn-download {
+ padding: 8px;
+ width: 20px;
+ text-align: center;
+ border: 1px solid var(--border-color);
+ border-radius: 8px;
+ font-size: 0.85rem;
+ font-weight: 600;
+ opacity: 0.7;
+}
+
+.btn-view {
+ background-color: var(--view-button-gray);
+ color: #303538; 
+}
+
+.btn-download {
+ background-color: var(--download-button-blue);
+ color: #213a50;
+}
+
+.btn-view:hover, .btn-download:hover {
+ opacity: 1.0;
+}
 
 /* --- MENU BUTTON STYLE --- */
 /* Add this so the button only shows on mobile */

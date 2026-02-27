@@ -11,12 +11,12 @@
     {% include "partials/header.html" %}
 
     <div class="middle-wrapper">
-        <aside class="navigation-rail-container">
+        <aside class="navigation-rail-container-style">
             {% include "partials/sidebar.html" %}
         </aside>
 
         {# This is the ONLY place content enters the shell #}
-        <main id="content-panel-container" class="workspace-container">
+        <main id="content-panel-container" class="content-panel-container-style">
             {% block main %}{% endblock %}
         </main>
     </div>
