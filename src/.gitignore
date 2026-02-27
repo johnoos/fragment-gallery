@@ -5,6 +5,21 @@ _site/
 node_modules/
 .cache/
 .11ty-cache/
+.env
 
 # Mac system files
 .DS_Store
+
+npm-debug.log*
+package-lock.json
+
+.AppleDouble
+.LSOverride
+._*
+
+.vscode/
+*.code-workspace
+
+# --- High-Resolution Assets (Optional) ---
+# Ignore large PDFs if you prefer to host them elsewhere or use Git LFS
+# *.pdf

@@ -8,7 +8,7 @@ permalink: "/menuItemPage/{{ menuItem.menuItemSlug }}/"
 <div class="doc-gallery">
   {% set docs = menuItem.documents %}
   {% for doc in docs %}
-    <div class="card">
+    <div>
       <h3>{{ doc.docTitle }}</h3>
       <img src="/assets/img/previews/{{ doc.docSlug }}.png" alt="{{ doc.docSlug }} preview" class="doc-card">
       <a href="/assets/pdfs/{{ doc.docSlug }}.pdf/" class="btn">View</a>
