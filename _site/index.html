@@ -33,7 +33,8 @@
       
       
 
-      <button data-fragment="/fragments/category/cv/" 
+      
+      <button data-fragment="/menuItemPage/cv/" 
               data-push="/cv/"
               class="nav-trigger navigation-rail-container__link">
         CV
@@ -46,7 +47,8 @@
       
       
 
-      <button data-fragment="/fragments/category/certificates/" 
+      
+      <button data-fragment="/menuItemPage/certificates/" 
               data-push="/certificates/"
               class="nav-trigger navigation-rail-container__link">
         Academic certificates
@@ -59,7 +61,8 @@
       
       
 
-      <button data-fragment="/fragments/category/transcripts/" 
+      
+      <button data-fragment="/menuItemPage/transcripts/" 
               data-push="/transcripts/"
               class="nav-trigger navigation-rail-container__link">
         Academic transcripts
@@ -72,7 +75,8 @@
       
       
 
-      <button data-fragment="/fragments/category/theses/" 
+      
+      <button data-fragment="/menuItemPage/theses/" 
               data-push="/theses/"
               class="nav-trigger navigation-rail-container__link">
         Theses
@@ -85,7 +89,8 @@
       
       
 
-      <button data-fragment="/fragments/category/publications/" 
+      
+      <button data-fragment="/menuItemPage/publications/" 
               data-push="/publications/"
               class="nav-trigger navigation-rail-container__link">
         Publications
@@ -98,7 +103,8 @@
       
       
 
-      <button data-fragment="/fragments/category/reports/" 
+      
+      <button data-fragment="/menuItemPage/reports/" 
               data-push="/reports/"
               class="nav-trigger navigation-rail-container__link">
         PhD-examiner-reports
@@ -110,28 +116,57 @@
   </ul>
 </nav>
 <script>
-  // Use a self-executing check to prevent duplicate listeners
-  if (!window.navListenerAttached) {
-    document.addEventListener('click', async (e) => {
-      const btn = e.target.closest('.nav-trigger');
-      if (!btn) return;
-      
-      e.preventDefault();
-      const target = document.querySelector('#workspace-container');
-      
-      try {
-        const res = await fetch(btn.dataset.fragment);
-        target.innerHTML = await res.text();
-        history.pushState({}, '', btn.dataset.push);
-      } catch (err) {
-        console.error("Fetch error:", err);
-      }
-    });
+  document.addEventListener('DOMContentLoaded', () => {
+    // 1. We no longer look for a single ID. 
+    // We check if at least one navigation button exists to verify the partial loaded.
+    const navExists = document.querySelector('.nav-trigger');
     
-    window.navListenerAttached = true;
-    // Now you can use button.dataset.fragment or button.dataset.push
-    console.log("Fetching from:", button.dataset.fragment);
-  }
+    if (navExists) {
+      console.log('✅ Navigation buttons found. Initializing listener...');
+
+      // 2. Prevent duplicate listeners if this partial is included multiple times
+      if (!window.navListenerAttached) {
+        document.addEventListener('click', async (e) => {
+          
+          // 3. Find the button (or its parent) with the trigger class
+          const btn = e.target.closest('.nav-trigger');
+          if (!btn) return;
+      
+          e.preventDefault();
+          const targetContainer = document.querySelector('#content-panel-container');
+          
+          if (!targetContainer) {
+            console.error("Target #workspace-container not found on this page.");
+            return;
+          }
+      
+          try {
+            console.log('Fetching content from:', btn.dataset.fragment);
+            const res = await fetch(btn.dataset.fragment);
+            
+            if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+
+            // FIX: We must only call .text() ONCE. We save it to a variable.
+            const htmlContent = await res.text();
+            
+            // Now we can log it and use it safely
+            console.log('Successfully received HTML content');
+            targetContainer.innerHTML = htmlContent;
+            
+            // Update browser URL
+            history.pushState({}, '', btn.dataset.push);
+            
+          } catch (err) {
+            console.error("Fetch error:", err);
+          }
+        });
+    
+        window.navListenerAttached = true;
+      }
+    } else {
+      console.warn('No .nav-trigger buttons found in the DOM.');
+    }
+  });
 </script>
         </aside>
 
