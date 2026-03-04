@@ -1,14 +1,14 @@
-<nav class="navigation-rail-container-style">
-  <ul class="navigation-rail-container-style__list">
-    {% for menuItem in menuItemsWithDocuments %}
-    <li class="navigation-rail-container-style__item">
+<nav class="navig-rail-container-style">
+  <ul class="navig-rail-container-style__list">
+    {% for menuItem in menuItemswithDocs %}
+    <li class="navig-rail-container-style__item">
       {% set targetUrl = "/menuItemPage/" + menuItem.menuItemSlug + "/" %}
       {% set pushUrl = "/" + menuItem.menuItemSlug + "/" %}
 
       {# Removed id="menuItemClicked" because IDs must be unique in a loop #}
       <button data-fragment="{{ targetUrl }}" 
               data-push="{{ pushUrl }}"
-              class="nav-trigger navigation-rail-container-style__link">
+              class="nav-trigger navig-rail-container-style__link">
         {{ menuItem.menuItemTitle }}
         <div class="loader spinner" style="display: none;"></div>
       </button>

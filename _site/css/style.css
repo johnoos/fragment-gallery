@@ -6,7 +6,7 @@
   --download-button-blue: hsla(211, 71%, 68%, 0.333);
 }
 
-.top-panel-style {
+.top-panel-container-style {
   /* background: var(--bg-color); */
   height: 120px;
   margin: 0;
@@ -46,42 +46,7 @@ body { font-family: system-ui, sans-serif; margin: 0; display: flex; flex-direct
 
 .middle-wrapper { display: flex; flex: 1; }
 
-.navigation-rail-container-style { width: 250px; background: #2c3e50; color: white; padding: 20px; }
-
-/* If any child element is making a request, "freeze" the whole sidebar */
-.navigation-rail-container-style:has(.htmx-request) {
-    pointer-events: none;
-    filter: grayscale(0.5); /* Optional: desaturate to show 'busy' state */
-}
-
-.content-panel-container-style { 
-  flex: 1; background: var(--bg); padding: 20px; 
-  /* 1. Define the transition on your target container */
-    transition: opacity 0.3s ease-in-out;
-}
-
-/* 2. Style for the element while htmx is swapping content */
-.htmx-swapping #content-panel-container-style {
-    opacity: 0;
-}
-
-/* 3. Style for the element when new content is added but not yet "settled" */
-.htmx-added #content-panel-container-style {
-    opacity: 0;
-}
-
-/* 1. Basic Spinner Styling */
-.loader {
-  width: 18px;
-  height: 18px;
-  border: 2px solid #FFF;
-  border-bottom-color: transparent;
-  border-radius: 50%;
-  display: inline-block;
-  vertical-align: middle;
-  margin-left: 8px;
-  animation: rotation 1s linear infinite;
-}
+.navig-rail-container-style { width: 250px; background: #2c3e50; color: white; padding: 20px; }
 
 /* 2. Rotation Animation */
 @keyframes rotation {
@@ -89,24 +54,7 @@ body { font-family: system-ui, sans-serif; margin: 0; display: flex; flex-direct
   100% { transform: rotate(360deg); }
 }
 
-/* 3. Ensuring htmx handles the toggle correctly */
-.htmx-indicator {
-  display: none; /* Hide completely when not in use */
-}
-
-.htmx-request .htmx-indicator,
-.htmx-request.htmx-indicator {
-  display: inline-block; /* Show only during the request */
-}
-
-/* Disable the button and dim it while the request is live */
-.navigation-rail-container-style__link.htmx-request {
-    pointer-events: none; /* Prevents further clicks */
-    opacity: 0.6;         /* Visual feedback that it's busy */
-    cursor: not-allowed;
-}
-
-.navigation-rail-container-style__list {  /* use to be .sidebar-panel-style */
+.navig-rail-container-style__list {  /* use to be .sidebar-panel-style */
   list-style-type: none;            /* Removes the bullets */
   padding: 0;                       /* Removes default left padding */
   text-align: left;
@@ -114,11 +62,17 @@ body { font-family: system-ui, sans-serif; margin: 0; display: flex; flex-direct
   flex: 0 0 230px;                  /* Keep original width */
 }
 
-.navigation-rail-container-style__item {
+.navig-rail-container-style__item {
   color: #000000 !important;
   text-decoration: none;
   font-size: 1.0rem;                /* Matches sidebar container size */
   line-height: 1.5; 
+}
+
+.content-panel-container-style { 
+  flex: 1; background: var(--bg); padding: 20px; 
+  /* 1. Define the transition on your target container */
+    transition: opacity 0.3s ease-in-out;
 }
 
 .doc-gallery { 
@@ -188,4 +142,17 @@ body { font-family: system-ui, sans-serif; margin: 0; display: flex; flex-direct
     .title-lines {
       line-height: 1.05;
     }
+}
+
+/* 1. Basic Spinner Styling */
+.loader {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #FFF;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 8px;
+  animation: rotation 1s linear infinite;
 }

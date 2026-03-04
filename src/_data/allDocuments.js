@@ -6,7 +6,7 @@ import { resolve } from 'node:path';
 export default function() {
   // 1. Resolve path to the renamed file in the same directory
   // If on older Node < 20.11, use new URL('allDocuments.data', import.meta.url)
-  const filePath = resolve(import.meta.dirname, 'menuItemsWithDocuments.json');
+  const filePath = resolve(import.meta.dirname, 'menuItemswithDocs.json');
 
   // 2. Read the file as a UTF-8 string
   const rawContent = readFileSync(filePath, 'utf8');
