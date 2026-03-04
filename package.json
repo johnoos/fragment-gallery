@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@11ty/eleventy": "^3.0.0",
-    "htmx.org": "^1.9.10"
+    "htmx.org": "^1.9.10",
+    "pdf-poppler": "^0.2.3"
   }
 }
