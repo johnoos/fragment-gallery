@@ -1,0 +1,15 @@
+---
+pagination:
+  data: menuItemsWithDocs
+  size: 1
+  alias: cat
+permalink: "/fragments/galleries/{{ cat.category | slugify }}.html"
+---
+<div class="gallery" data-category="{{ cat.category }}">
+  {% for pdf in cat.pdfs %}
+    <button class="doc-card" onclick="loadDocView('{{ cat.category }}', '{{ pdf.slug }}')">
+      <img src="/assets/previews/{{ pdf.slug }}.jpg" alt="{{ pdf.title }} preview">
+      <span>{{ pdf.title }}</span>
+    </button>
+  {% endfor %}
+</div>

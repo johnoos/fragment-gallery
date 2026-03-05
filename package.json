@@ -9,6 +9,7 @@
   "dependencies": {
     "@11ty/eleventy": "^3.0.0",
     "htmx.org": "^1.9.10",
+    "node-poppler": "^9.1.1",
     "pdf-poppler": "^0.2.3"
   }
 }

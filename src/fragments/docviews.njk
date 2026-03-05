@@ -1,0 +1,15 @@
+---
+pagination:
+  data: menuItemsWithDocs
+  size: 1
+  alias: cat
+  before: |
+    (data) => data.flatMap(c => c.pdfs.map(p => ({ ...p, category: c.category })))
+permalink: "/fragments/docs/{{ pagination.items[0].category | slugify }}/{{ pagination.items[0].slug }}.html"
+---
+{% set doc = pagination.items[0] %}
+<div class="doc-view">
+  <h2>{{ doc.title }}</h2>
+  <iframe src="{{ doc.url }}" width="100%" height="600px"></iframe>
+  <button onclick="closeDocView()">Back to Gallery</button>
+</div>

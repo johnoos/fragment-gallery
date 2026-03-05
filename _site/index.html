@@ -11,7 +11,7 @@
     <header id="top-panel-container" class="top-panel-container-style">
   <table class="top-panel-table-style">
     <tr>
-      <td><img src="/assets/img/logo.png" alt="Logo" class="logo"></td> <!-- col 1 = logo -->
+      <td><img src="/assets/images/logo.png" alt="Logo" class="logo"></td> <!-- col 1 = logo -->
       <td style="width: 15px;"></td>                                <!-- col2 = spacer -->
       <td class="title-lines">
         <div class="title-line-1">John Oosthuizen&nbsp;&nbsp;|&nbsp;&nbsp;PhD Music</div>
@@ -29,145 +29,10 @@
             <nav class="navig-rail-container-style">
   <ul class="navig-rail-container-style__list">
     
-    <li class="navig-rail-container-style__item">
-      
-      
-
-      
-      <button data-fragment="/menuItemPage/cv/" 
-              data-push="/cv/"
-              class="nav-trigger navig-rail-container-style__link">
-        CV
-        <div class="loader spinner" style="display: none;"></div>
-      </button>
-      
-    </li>
-    
-    <li class="navig-rail-container-style__item">
-      
-      
-
-      
-      <button data-fragment="/menuItemPage/certificates/" 
-              data-push="/certificates/"
-              class="nav-trigger navig-rail-container-style__link">
-        Academic certificates
-        <div class="loader spinner" style="display: none;"></div>
-      </button>
-      
-    </li>
-    
-    <li class="navig-rail-container-style__item">
-      
-      
-
-      
-      <button data-fragment="/menuItemPage/transcripts/" 
-              data-push="/transcripts/"
-              class="nav-trigger navig-rail-container-style__link">
-        Academic transcripts
-        <div class="loader spinner" style="display: none;"></div>
-      </button>
-      
-    </li>
-    
-    <li class="navig-rail-container-style__item">
-      
-      
-
-      
-      <button data-fragment="/menuItemPage/theses/" 
-              data-push="/theses/"
-              class="nav-trigger navig-rail-container-style__link">
-        Theses
-        <div class="loader spinner" style="display: none;"></div>
-      </button>
-      
-    </li>
-    
-    <li class="navig-rail-container-style__item">
-      
-      
-
-      
-      <button data-fragment="/menuItemPage/publications/" 
-              data-push="/publications/"
-              class="nav-trigger navig-rail-container-style__link">
-        Publications
-        <div class="loader spinner" style="display: none;"></div>
-      </button>
-      
-    </li>
-    
-    <li class="navig-rail-container-style__item">
-      
-      
-
-      
-      <button data-fragment="/menuItemPage/reports/" 
-              data-push="/reports/"
-              class="nav-trigger navig-rail-container-style__link">
-        PhD-examiner-reports
-        <div class="loader spinner" style="display: none;"></div>
-      </button>
-      
-    </li>
-    
   </ul>
 </nav>
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    // 1. We no longer look for a single ID. 
-    // We check if at least one navigation button exists to verify the partial loaded.
-    const navExists = document.querySelector('.nav-trigger');
-    
-    if (navExists) {
-      console.log('✅ Navigation buttons found. Initializing listener...');
 
-      // 2. Prevent duplicate listeners if this partial is included multiple times
-      if (!window.navListenerAttached) {
-        document.addEventListener('click', async (e) => {
-          
-          // 3. Find the button (or its parent) with the trigger class
-          const btn = e.target.closest('.nav-trigger');
-          if (!btn) return;
-      
-          e.preventDefault();
-          const targetContainer = document.querySelector('#content-panel-container');
-          
-          if (!targetContainer) {
-            console.error("Target #content-panel-container not found on this page.");
-            return;
-          }
-      
-          try {
-            console.log('Fetching content from:', btn.dataset.fragment);
-            const res = await fetch(btn.dataset.fragment);
-            
-            if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
 
-            // FIX: We must only call .text() ONCE. We save it to a variable.
-            const htmlContent = await res.text();
-            
-            // Now we can log it and use it safely
-            console.log('Successfully received HTML content');
-            targetContainer.innerHTML = htmlContent;
-            
-            // Update browser URL
-            history.pushState({}, '', btn.dataset.push);
-            
-          } catch (err) {
-            console.error("Fetch error:", err);
-          }
-        });
-    
-        window.navListenerAttached = true;
-      }
-    } else {
-      console.warn('No .nav-trigger buttons found in the DOM.');
-    }
-  });
-</script>
 
         </aside>
 
@@ -196,5 +61,6 @@
       <p style="text-align: center; margin-top: 2px;">March 2026</p>
   </div>
 </footer>
+<script src="/assets/js/nav-handler.js" defer></script>
 </body>
 </html>
