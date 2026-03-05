@@ -5,11 +5,14 @@ pagination:
   alias: cat
 permalink: "/fragments/galleries/{{ cat.category | slugify }}.html"
 ---
-<div class="gallery" data-category="{{ cat.category }}">
+<div class="doc-gallery">
   {% for pdf in cat.pdfs %}
-    <button class="doc-card" onclick="loadDocView('{{ cat.category }}', '{{ pdf.slug }}')">
+    {# We removed onclick and added data-category/data-slug for the JS to find #}
+    <button class="doc-card" 
+            data-category="{{ cat.category | slugify }}" 
+            data-slug="{{ pdf.slug }}">
       <img src="/assets/previews/{{ pdf.slug }}.jpg" alt="{{ pdf.title }} preview">
-      <span>{{ pdf.title }}</span>
+      <span>{{ pdf.title | title }}</span>
     </button>
   {% endfor %}
 </div>

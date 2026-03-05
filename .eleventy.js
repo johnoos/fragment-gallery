@@ -3,6 +3,14 @@ import path from 'node:path';
 import fs from 'node:fs';
 
 export default function(eleventyConfig) {
+
+  // 1. Tell Eleventy NOT to watch the previews folder for changes
+  eleventyConfig.watchIgnores.add("src/assets/images/previews/**");
+
+  // 2. Your PDF generation logic (keep as is)
+  eleventyConfig.on('eleventy.before', async () => {
+    // ... logic that writes to src/assets/images/previews/
+  });
   
   // 1. AUTOMATION: Generate previews before the build starts
   eleventyConfig.on('eleventy.before', async () => {
