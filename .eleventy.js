@@ -1,66 +1,69 @@
+// see the following doc for the roles of .eleventy.js, prePreviews.js, and fragments.11tydata.js
+// https://docs.google.com/document/d/1Dq5u_j11XlhlM0QjSIrfAKSdZVLAOnnqdbqtUgfgFU0/edit?tab=t.0 
+
 import pdfPoppler from 'pdf-poppler';
 import path from 'node:path';
 import fs from 'node:fs';
 
+let hasGeneratedPreviews = false;
+
 export default function(eleventyConfig) {
-
-  // 1. Tell Eleventy NOT to watch the previews folder for changes
-  eleventyConfig.watchIgnores.add("src/assets/images/previews/**");
-
-  // 2. Your PDF generation logic (keep as is)
-  eleventyConfig.on('eleventy.before', async () => {
-    // ... logic that writes to src/assets/images/previews/
-  });
+  // 1. Tell Eleventy NOT to watch the previews folder at all
+  eleventyConfig.watchIgnores.add("**/src/assets/previews/**");
   
-  // 1. AUTOMATION: Generate previews before the build starts
-  eleventyConfig.on('eleventy.before', async () => {
-    const pdfRoot = './src/assets/pdfs';
-    const outputDir = './src/assets/previews';
+  // 2. Prevent JS data changes from triggering a full rebuild loop
+  eleventyConfig.setWatchJavaScriptDependencies(false);
 
-    if (!fs.existsSync(outputDir)) fs.mkdirSync(outputDir, { recursive: true });
+ /* eleventyConfig.on('eleventy.before', async () => {
 
-    const categories = fs.readdirSync(pdfRoot);
-    for (const cat of categories) {
-      const catPath = path.join(pdfRoot, cat);
-      if (!fs.statSync(catPath).isDirectory()) continue;
+    if (hasGeneratedPreviews) return;
 
-      const files = fs.readdirSync(catPath).filter(f => f.endsWith('.pdf'));
+    const outputDir = path.join(import.meta.dirname, '_site/assets/previews');
+
+    // Create directory if missing
+    if (!fs.existsSync(outputDir)) {
+      fs.mkdirSync(outputDir, { recursive: true });
+    }
+
+    const pdfRoot = path.join(import.meta.dirname, 'src/assets/pdfs');
+    if (!fs.existsSync(pdfRoot)) return;
+
+    const folders = fs.readdirSync(pdfRoot, { withFileTypes: true })
+      .filter(e => e.isDirectory() && !e.name.startsWith('.'))
+      .map(e => e.name);
+
+    for (const folder of folders) {
+      const folderPath = path.join(pdfRoot, folder);
+      const files = fs.readdirSync(folderPath).filter(f => f.toLowerCase().endsWith('.pdf'));
+
       for (const file of files) {
-        const filePath = path.join(catPath, file);
         const slug = file.replace('.pdf', '').toLowerCase().replace(/[^a-z0-9]/g, '-');
-        
-        // Skip if preview already exists to save build time
-        if (fs.existsSync(path.join(outputDir, `${slug}-1.jpg`))) continue;
+        const outputFile = path.join(outputDir, `${slug}-1.jpg`);
 
-        let opts = {
-          format: 'jpeg',
-          out_dir: outputDir,
-          out_prefix: slug,
-          page: 1
-        };
+        // CRITICAL: Skip if it exists to avoid heavy processing
+        if (fs.existsSync(outputFile)) continue;
 
+                      console.log(`[PDF] Converting: ${file}`);
         try {
-          console.log(`Generating preview for: ${file}`);
-          await pdfPoppler.convert(filePath, opts);
+          await pdfPoppler.convert(path.join(folderPath, file), {
+            format: 'jpeg',
+            out_dir: outputDir,
+            out_prefix: slug,
+            page: 1
+          });
         } catch (err) {
-          console.error(`Failed to convert ${file}:`, err);
+                      console.error(`[PDF] Error: ${file}`, err);
         }
       }
     }
+
+    hasGeneratedPreviews = true;
+                      console.log(">>> [PDF] Previews checked.");
+
   });
 
-  // 2. YOUR EXISTING PASSTHROUGHS
-  eleventyConfig.addPassthroughCopy("src/assets");
-  eleventyConfig.addPassthroughCopy("src/css");
+  */
 
-  // 3. YOUR EXISTING CONFIG
-  return {
-    dir: {
-      input: "src",
-      output: "_site",
-      includes: "_includes"
-    },
-    markdownTemplateEngine: "njk",
-    htmlTemplateEngine: "njk"
-  };
-};
+  eleventyConfig.addPassthroughCopy("src/assets");
+  return { dir: { input: "src", output: "_site" } };
+}

@@ -1,3 +1,3 @@
 {
-  "categoryOrder": ["curriculum-vitae", "certificates", "transcripts", "publications", "theses", "references", "examiner-reports" ]
+  "categories": ["curriculum-vitae", "certificates", "transcripts", "publications", "theses", "references", "examiner-reports", "other" ]
 }
