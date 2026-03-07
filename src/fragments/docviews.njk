@@ -1,14 +1,11 @@
 ---
 pagination:
-  data: menuItemsWithDocs
+  data: pdfPreviews
   size: 1
-  alias: cat
-  before: |
-    (data) => data.flatMap(c => c.pdfs.map(p => ({ ...p, category: c.category })))
-permalink: "/fragments/docviews/item-{{ pagination.pageNumber }}/index.html"
+  alias: doc
+permalink: "/fragments/docs/{{ doc.category }}/{{ doc.slug }}.html"
 ---
-<div class="doc-view">
-  <h2>{{ doc.title }}</h2>
-  <iframe src="{{ doc.url }}" width="100%" height="600px"></iframe>
-  <button onclick="closeDocView()">Back to Gallery</button>
+<div class="document-viewer">
+  <h2>{{ doc.name }}</h2>
+  <img src="{{ doc.imagePath }}" alt="Preview of {{ doc.name }}">
 </div>

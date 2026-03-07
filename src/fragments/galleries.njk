@@ -3,7 +3,7 @@ pagination:
   data: menuItemsWithDocs
   size: 1
   alias: cat
-permalink: "/fragments/galleries/{{ cat.category | slugify }}.html"
+permalink: "/fragments/galleries/{{ cat.slug }}.html"
 ---
 <div class="doc-gallery">
   {% for pdf in cat.pdfs %}

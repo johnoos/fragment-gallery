@@ -9,6 +9,8 @@ node_modules/
 
 # Mac system files
 .DS_Store
+Thumbs.db
+
 
 npm-debug.log*
 package-lock.json
@@ -20,6 +22,12 @@ package-lock.json
 .vscode/
 *.code-workspace
 
+
+.eleventy.cache/
+
+
+
 # --- High-Resolution Assets (Optional) ---
 # Ignore large PDFs if you prefer to host them elsewhere or use Git LFS
 # *.pdf
+

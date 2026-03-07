@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fragment Gallery</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- Local HTMX reference: stable and fast -->
+    <script src="/assets/js/htmx.js"></script>
+</head>
+<body>
+    <header id="top-panel-container" class="top-panel-container-style">
+  <table class="top-panel-table-style">
+    <tr>
+      <td><img src="/assets/images/logo.png" alt="Logo" class="logo"></td> <!-- col 1 = logo -->
+      <td style="width: 15px;"></td>                                <!-- col2 = spacer -->
+      <td class="title-lines">
+        <div class="title-line-1">John Oosthuizen&nbsp;&nbsp;|&nbsp;&nbsp;PhD Music</div>
+        <div class="title-line-2">Academic Portfolio</div>
+      </td>
+      <td>
+        <button class="menu-toggle" onclick="toggleMenu()">☰ Menu</button>
+      </td>
+    </tr>
+  </table>
+</header>
+
+    <div class="middle-wrapper">
+        <aside class="navig-rail-container-style">
+            <nav class="navig-rail-container-style">
+  <ul class="navig-rail-container-style__list">
+    
+  </ul>
+</nav>
+
+
+
+        </aside>
+
+        
+        <main id="content-panel-container" class="content-panel-container-style">
+            
+        <table style="border-collapse: collapse; border: none;">
+                <tr>
+                        <!-- Spacer Column -->
+                        <td style="width: 20px; padding: 0;"></td>
+    
+                        <!-- Content Column -->
+                        <td style="padding: 0;">
+                                <h1>Welcome</h1>
+                                <p>Select a document category from the sidebar to begin.</p>
+                        </td>
+                </tr>
+        </table>
+
+        </main>
+    </div>
+
+    <footer class="footer">
+  <div class="footer-style">
+      <p style="text-align: center; margin-bottom: 0px;">© 2026 Dr. John Oosthuizen. All rights reserved.</p>
+      <p style="text-align: center; margin-top: 2px;">March 2026</p>
+  </div>
+</footer>
+<script src="/assets/js/nav-handler.js" defer></script>
+</body>
+</html>

@@ -1,7 +1,8 @@
 // see the following doc for the roles of .eleventy.js, prePreviews.js, and fragments.11tydata.js
 // https://docs.google.com/document/d/1Dq5u_j11XlhlM0QjSIrfAKSdZVLAOnnqdbqtUgfgFU0/edit?tab=t.0 
 
-import pdfPoppler from 'pdf-poppler';
+import { pdf } from 'pdf-to-img';
+import sharp from 'sharp';
 import path from 'node:path';
 import fs from 'node:fs';
 

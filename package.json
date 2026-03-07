@@ -3,15 +3,13 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "previews": "node scripts/generate-previews.js",
-    "start": "eleventy --serve",
+    "previews": "node scripts/task-generate-previews.js",
+    "start": "npm run previews && eleventy --serve",
     "build": "npm run previews && eleventy"
   },
   "dependencies": {
     "@11ty/eleventy": "^3.0.0",
     "htmx.org": "^1.9.10",
-    "node-poppler": "^9.1.1",
-    "pdf-img-convert": "^2.0.0",
     "pdf-to-img": "^5.0.0",
     "sharp": "^0.34.5"
   }
