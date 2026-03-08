@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "previews": "node scripts/task-generate-previews.js",
+    "previews": "node scripts/taskGeneratePreviews.js",
     "start": "npm run previews && eleventy --serve",
     "build": "npm run previews && eleventy"
   },

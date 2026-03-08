@@ -1,18 +1,39 @@
 ---
 pagination:
-  data: menuItemsWithDocs
+  data: fetchNavigationTree
   size: 1
   alias: cat
 permalink: "/fragments/galleries/{{ cat.slug }}.html"
 ---
-<div class="doc-gallery">
-  {% for pdf in cat.pdfs %}
-    {# We removed onclick and added data-category/data-slug for the JS to find #}
-    <button class="doc-card" 
-            data-category="{{ cat.category | slugify }}" 
-            data-slug="{{ pdf.slug }}">
-      <img src="/assets/previews/{{ pdf.slug }}.jpg" alt="{{ pdf.title }} preview">
-      <span>{{ pdf.title | title }}</span>
-    </button>
+<!-- The Architectural Wrapper -->
+<div class="gallery-grid">
+  
+  {% for doc in cat.pdfs %}
+    <div class="doc-card" data-category="{{ cat.slug }}" data-slug="{{ doc.slug }}">
+      
+      <div class="doc-card__preview">
+        <img src="{{ doc.previewUrl }}" alt="{{ doc.title }} preview" loading="lazy">
+      </div>
+
+      <div class="doc-card__content">
+        <h3 class="doc-card__title">{{ doc.title }}</h3>
+        
+        <div class="doc-card__actions">
+          <button class="btn-view" data-category="{{ cat.slug }}" data-slug="{{ doc.slug }}">
+            View
+          </button>
+          <a href="{{ doc.url }}" class="btn-download" download>
+            Download
+          </a>
+        </div>
+      </div>
+
+    </div>
   {% endfor %}
+
 </div>
+
+
+
+
+

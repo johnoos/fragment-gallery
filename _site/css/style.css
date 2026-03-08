@@ -1,13 +1,6 @@
-:root { 
-  --bg: #f4f4f4; 
-  --card-bg: #ffffff;
-  --border-color: hsl(0, 0%, 18%);
-  --view-button-gray: hsl(0, 1%, 84%);
-  --download-button-blue: hsla(211, 71%, 68%, 0.333);
-}
+/* 1. THE STAGE: The main panel where fragments land */
 
-.top-panel-container-style {
-  /* background: var(--bg-color); */
+.top-panel-container {
   height: 120px;
   margin: 0;
   Padding: 0;
@@ -18,23 +11,23 @@
   z-index: 10;
 }
 
-.top-panel-table-style {
+.logo {
+  width: 110px; 
+  display: flex; 
+  justify-content: center; 
+}
+
+.top-panel-table {
   border: none; 
   margin: 0 auto; 
   padding: 0; 
   border-collapse: separate;
 }
 
-.logo {
-  width: 110px; 
-  display: flex; 
-  justify-content: center; /* Vertical center */
-}
-
 .title-lines {
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Vertical center */
+  justify-content: center; 
   align-items: left;    
 }
 
@@ -42,50 +35,58 @@
 
 .title-line-2 { font-size: 28px; }
 
-body { font-family: system-ui, sans-serif; margin: 0; display: flex; flex-direction: column; min-height: 100vh; }
-
-.middle-wrapper { display: flex; flex: 1; }
-
-.navig-rail-container-style { width: 250px; background: #2c3e50; color: white; padding: 20px; }
-
-/* 2. Rotation Animation */
-@keyframes rotation {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+.menu-toggle {
+    display: none;
+    padding: 10px 20px;
+    background: var(--download-button-blue);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-left: 15px;
 }
 
-.navig-rail-container-style__list {  /* use to be .sidebar-panel-style */
-  list-style-type: none;            /* Removes the bullets */
-  padding: 0;                       /* Removes default left padding */
+/*
+#middle-wrapper {
+    display: flex; flex: 1;
+}
+    */
+
+#navig-rail-container { width: 250px; background: #2c3e50; color: white; padding: 20px; }
+
+.navig-rail-container__list {  
+  list-style-type: none;            
+  padding: 0;                       
   text-align: left;
-  margin: 15px;                     /* Increases spacing around the items */
-  flex: 0 0 230px;                  /* Keep original width */
-}
+  margin: 15px;                     
+  flex: 0 0 230px;                  
+} 
 
-.navig-rail-container-style__item {
+#navig-rail-container__item {
   color: #000000 !important;
   text-decoration: none;
-  font-size: 1.0rem;                /* Matches sidebar container size */
-  line-height: 1.5; 
+  font-size: 1.0rem;                
+  line-height: 1.5;
+  text-transform: capitalize; 
 }
 
-.nav-rail-container-style__item .label {
-  text-transform: capitalize;
-}
-
-.content-panel-container-style { 
+#content-panel-container {
+  padding: 2rem;
+  background-color: #f9f9f9;
+  min-height: 100vh;
   flex: 1; background: var(--bg); padding: 20px; 
-  /* 1. Define the transition on your target container */
-    transition: opacity 0.3s ease-in-out;
+  transition: opacity 0.3s ease-in-out;
 }
 
-.doc-gallery { 
+/* 2. THE GRID: Handles the horizontal "side-by-side" layout */
+.gallery-grid {
   display: flex; 
   flex-wrap: wrap; 
-  gap: 20px; 
+  gap: 20px;
 }
 
-.doc-card { 
+/* 3. THE CARD: Each document thumbnail */
+.doc-card {
   flex: 1 1 300px; 
   max-width: 400px; 
   background: var(--card-bg); 
@@ -96,11 +97,24 @@ body { font-family: system-ui, sans-serif; margin: 0; display: flex; flex-direct
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-.doc-card__image { width: 100%; height: auto; }
+.doc-card__preview {}
 
-.btn-area { margin: 10px; width: 100%; text-align: center; }
+.doc-card__content {}
 
-/* Button Styles */
+.doc-card__actions {
+  margin: 10px; width: 100%; text-align: center;
+}
+
+.doc-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* 4. THE PREVIEW: Ensuring the PNG fits perfectly */
+.doc-card img {
+  width: 100%; height: auto;
+}
+
 .btn-view, .btn-download {
  padding: 8px;
  width: 20px;
@@ -126,37 +140,12 @@ body { font-family: system-ui, sans-serif; margin: 0; display: flex; flex-direct
  opacity: 1.0;
 }
 
-/* --- MENU BUTTON STYLE --- */
-/* Add this so the button only shows on mobile */
-.menu-toggle {
-    display: none;
-    padding: 10px 20px;
-    background: var(--download-button-blue);
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
-    margin-left: 15px;
-}
+.document-viewer {}
 
-@media screen and (max-width: 768px) {
-    .menu-toggle {
-        display: block; /* Show only on mobile */
-    }
-    .title-lines {
-      line-height: 1.05;
-    }
-}
+.full-preview {}
 
-/* 1. Basic Spinner Styling */
-.loader {
-  width: 18px;
-  height: 18px;
-  border: 2px solid #FFF;
-  border-bottom-color: transparent;
-  border-radius: 50%;
-  display: inline-block;
-  vertical-align: middle;
-  margin-left: 8px;
-  animation: rotation 1s linear infinite;
-}
+#footer {}
+
+#footer-line1 { text-align: center; margin-bottom: 0px; }
+
+#footer-line2 { text-align: center; margin-top: 2px; }

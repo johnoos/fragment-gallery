@@ -1,16 +1,13 @@
-<nav class="navig-rail-container-style">
-  <ul class="navig-rail-container-style__list">
-    {% for menuItem in menuItemswithDocs %}
-    <li class="navig-rail-container-style__item">
+<nav id="navig-rail-container">
+  <ul class="navig-rail-container__list">
+    {% for menuItem in fetchNavigationTree %}
+    <li class="navig-rail-container__item">
       {% set targetUrl = "/menuItemPage/" + menuItem.menuItemSlug + "/" %}
       {% set pushUrl = "/" + menuItem.menuItemSlug + "/" %}
 
-      {# Removed id="menuItemClicked" because IDs must be unique in a loop #}
-      <button class="navig-rail-container-style__item" 
-            data-category="{{ menuItem.category | slugify }}" 
-            title="{{ menuItem.category }}">
+      <button data-category="{{ menuItem.category | slugify }}" 
+              title="{{ menuItem.category }}">
           {{ menuItem.category }}
-      <div class="loader spinner" style="display: none;"></div>
       </button>
       
     </li>

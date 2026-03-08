@@ -1,16 +1,6 @@
-{% extends "layouts/base.njk" %}
-
-{% block main %}
-        <table style="border-collapse: collapse; border: none;">
-                <tr>
-                        <!-- Spacer Column -->
-                        <td style="width: 20px; padding: 0;"></td>
-    
-                        <!-- Content Column -->
-                        <td style="padding: 0;">
-                                <h1>Welcome</h1>
-                                <p>Select a document category from the sidebar to begin.</p>
-                        </td>
-                </tr>
-        </table>
-{% endblock %}
+---
+layout: layouts/base.njk
+title: "Welcome"
+---
+{# We leave this block empty so the JS Controller detects an empty stage and triggers the first load #}
+<div id="content-panel-container"></div>

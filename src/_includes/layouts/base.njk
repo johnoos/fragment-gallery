@@ -5,23 +5,22 @@
     <title>{{ title or "Fragment Gallery" }}</title>
     <link rel="stylesheet" href="/css/style.css">
     <!-- Local HTMX reference: stable and fast -->
-    <script src="/assets/js/htmx.js"></script>
 </head>
 <body>
     {% include "partials/header.html" %}
 
-    <div class="middle-wrapper">
-        <aside class="navig-rail-container-style">
+    <div id="middle-wrapper">
+        <aside id="navig-rail-container">
             {% include "partials/sidebar.html" %}
         </aside>
 
         {# This is the ONLY place content enters the shell #}
-        <main id="content-panel-container" class="content-panel-container-style">
+        <main id="content-panel-container">
             {% block main %}{% endblock %}
         </main>
     </div>
 
     {% include "partials/footer.html" %}
-<script src="/assets/js/nav-handler.js" defer></script>
+<script type="module" src="/assets/js/controllerNavHandler.js"></script>
 </body>
 </html>

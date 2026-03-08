@@ -1,11 +1,11 @@
 ---
 pagination:
-  data: pdfPreviews
+  data: fetchPDFManifest
   size: 1
   alias: doc
 permalink: "/fragments/docs/{{ doc.category }}/{{ doc.slug }}.html"
 ---
 <div class="document-viewer">
   <h2>{{ doc.name }}</h2>
-  <img src="{{ doc.imagePath }}" alt="Preview of {{ doc.name }}">
+  <img src="{{ doc.imagePath }}" class="full-preview" alt="{{ doc.name }}">
 </div>
