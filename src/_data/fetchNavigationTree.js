@@ -4,102 +4,71 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-// --- INITIALIZATION ---
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-// Import sorting configuration
-import contentConfig from './contentConfig.json' with { type: 'json' };
-const CATEGORY_ORDER = contentConfig.categories || [];
-
-const PATHS = {
-  pdfSource: path.resolve(__dirname, '../assets/pdfs')
-};
-
-// --- DATA TRANSFORMERS (Low Coupling) ---
-
-/** Standardises strings for URLs and IDs */
-const slugify = (text) => text.toLowerCase().replace(/[^a-z0-9]/g, '-');
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const PATHS = { pdfSource: path.resolve(__dirname, '../assets/pdfs') };
 
 /** 
- * Converts filenames to clean, readable display titles.
- * Handles: "01-My-Doc.pdf" -> "My Doc"
+ * THE MASTER CLEANER: Use this for both Folders and PDFs 
+ * Preserves PhD, ATCL, etc.
  */
-const formatTitle = (filename) => {
-  return filename
-    .replace('.pdf', '')
-    .replace(/^\d+-/, '') // Strips "01-", "09-", "10-", etc.
-    .replace(/-/g, ' ');
+const getCleanedTitle = (str) => {
+  if (!str) return "";
+  return str.replace('.pdf', '')
+    .replace(/^\d+[-_]*/, "")    // Remove 01-
+    .replace(/[-_]+/g, " ")      // Hyphens to spaces
+    .trim()
+    .split(" ")
+    .map(word => {
+      if (/^phd$/i.test(word)) return "PhD"; 
+      if (/[A-Z]{2,}/.test(word) || /\d/.test(word)) return word;
+      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    }).join(" ");
 };
 
-/** 
- * ARCHITECTURAL UTILITY: 
- * Ensures the 'Handshake' between filenames and URLs is consistent.
- */
-const getCleanSlug = (filename) => {
-  return filename
-    .replace('.pdf', '')           // Remove extension
-    .toLowerCase()                 // Normalise case
-    .replace(/^\d+-/, '')          // STRIP THE "01-" SORTING PREFIX
-    .replace(/[^a-z0-9]/g, '-');   // Standardise for URLs
-};
+const getSlug = (str) => str.toLowerCase().replace('.pdf', '').replace(/^\d+[-_]*/, "").replace(/[^a-z0-9]/g, '-');
 
-/** Maps a single PDF file to our standard Document Object */
-const mapPdfToDoc = (filename, categoryName) => {
-  const slug = slugify(filename.replace('.pdf', ''));
-  
-  return {
-    docname: filename,
-    title: formatTitle(filename),
-    url: `/assets/pdfs/${categoryName}/${filename}`,
-    slug: slug,
-    previewUrl: `/assets/previews/${slug}-1.png` // Points to the generated PNG
-  };
-};
-
-// --- MAIN DATA GENERATOR ---
+// --- THE DATA GENERATOR ---
 
 export default () => {
-  console.log("🔍 Mapping PDF Data Cascade...");
+  if (!fs.existsSync(PATHS.pdfSource)) return [];
 
-  if (!fs.existsSync(PATHS.pdfSource)) {
-    console.error("❌ PDF Source not found:", PATHS.pdfSource);
-    return [];
-  }
+  return fs.readdirSync(PATHS.pdfSource, { withFileTypes: true })
+    .filter(d => d.isDirectory() && !d.name.startsWith('.'))
+    .map(folder => {
+      // 1. FOLDERIDENTIFIER
+      const folderNameOnDisk = folder.name;
+      const catPath = path.join(PATHS.pdfSource, folderNameOnDisk);
 
-  // 1. Scan for Category Folders
-  const categoryFolders = fs.readdirSync(PATHS.pdfSource, { withFileTypes: true })
-    .filter(dirent => dirent.isDirectory() && !dirent.name.startsWith('.'));
+      const pdfFiles = fs.readdirSync(catPath)
+        .filter(file => file.toLowerCase().endsWith('.pdf'))
+        .map(filename => {
+          // 2. PDFIDENTIFIER
+          const pdfNameOnDisk = filename;
+          const baseNoExt = filename.replace('.pdf', '');
 
-  // 2. Build the Category Objects
-  const categories = categoryFolders.map(folder => {
-    const categoryName = folder.name;
-    const catPath = path.join(PATHS.pdfSource, categoryName);
+          return {
+            nameOnDisk: pdfNameOnDisk,
+            cleanedTitle: getCleanedTitle(baseNoExt),
+            slug: getSlug(baseNoExt),
+            // Asset paths use lowercase disk name for 404 safety
+            url: `/assets/pdfs/${folderNameOnDisk}/${pdfNameOnDisk}`,
+            previewUrl: `/assets/previews/${baseNoExt.toLowerCase()}-1.png`
+          };
+        });
 
-    // Get all PDFs in this category
-    const pdfFiles = fs.readdirSync(catPath)
-      .filter(file => file.toLowerCase().endsWith('.pdf'));
-
-    return {
-      category: categoryName,
-      slug: slugify(categoryName),
-      pdfs: pdfFiles.map(file => mapPdfToDoc(file, categoryName))
-    };
-  });
-
-  // 3. Filter and Sort the Results
-  return categories
-    .filter(cat => cat.pdfs.length > 0) // Only show folders with content
+      return {
+        nameOnDisk: folderNameOnDisk,
+        cleanedTitle: getCleanedTitle(folderNameOnDisk),
+        slug: getSlug(folderNameOnDisk),
+        pdfs: pdfFiles
+      };
+    })
+    .filter(cat => cat.pdfs.length > 0)
     .sort((a, b) => {
-      const indexA = CATEGORY_ORDER.indexOf(a.category.toLowerCase());
-      const indexB = CATEGORY_ORDER.indexOf(b.category.toLowerCase());
-
-      // Priority sort based on JSON config
-      if (indexA !== -1 && indexB !== -1) return indexA - indexB;
-      if (indexA !== -1) return -1;
-      if (indexB !== -1) return 1;
-
-      // Fallback: Alphabetical
-      return a.category.localeCompare(b.category);
+      const getOrder = (n) => {
+        const match = n.match(/^(\d+)-/);
+        return match ? parseInt(match[1], 10) : 999;
+      };
+      return getOrder(a.nameOnDisk) - getOrder(b.nameOnDisk);
     });
 };

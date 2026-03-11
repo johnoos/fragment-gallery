@@ -9,15 +9,13 @@
 <body>
     {% include "partials/header.html" %}
 
-    <div id="middle-wrapper">
-        <aside id="navig-rail-container">
+    <div class="layout-wrapper">
             {% include "partials/sidebar.html" %}
-        </aside>
 
-        {# This is the ONLY place content enters the shell #}
-        <main id="content-panel-container">
-            {% block main %}{% endblock %}
-        </main>
+            {# This is the ONLY place content enters the shell #}
+            <main id="content-panel-container">
+                {% block main %}{% endblock %}
+            </main>   
     </div>
 
     {% include "partials/footer.html" %}

@@ -1,14 +1,50 @@
-/* 1. THE STAGE: The main panel where fragments land */
+:root {
+  /* Tiers of Grey for Depth */
+  --color-frame-bg: #1f2937;    /* Tier 1: Darkest (Header/Footer/Logo Area) */
+  --color-rail-bg: #374151;     /* Tier 2: Dark (Sidebar) */
+  --color-content-bg: #f3f4f6;  /* Tier 3: Light Grey (The "Stage") */
+  
+  /* Card & Element Layer */
+  --color-card-bg: #ffffff;     /* Tier 4: Pure White (The "Floating" Doc) */
+  --color-border: #e5e7eb;      
+  
+  /* Text & Accents */
+  --color-text-on-dark: #f9fafb;
+  --color-text-main: #111827;
+  --shadow-card: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Base Layout */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+  color: var(--color-text-main);
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+/* --- HEADER & LOGO AREA --- */
+header {
+  width: 100%;
+  background-color: var(--color-frame-bg);
+  color: var(--color-text-on-dark);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  flex-shrink: 0;
+  z-index: 20;
+}
 
 .top-panel-container {
   height: 120px;
-  margin: 0;
-  Padding: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-shrink: 0;
-  z-index: 10;
+}
+
+.top-panel-table {
+  border: none; 
+  margin: 0 auto; 
+  border-collapse: separate;
 }
 
 .logo {
@@ -17,135 +53,195 @@
   justify-content: center; 
 }
 
-.top-panel-table {
-  border: none; 
-  margin: 0 auto; 
-  padding: 0; 
-  border-collapse: separate;
+.logo img {
+  max-height: 80px;
+  width: auto;
 }
 
 .title-lines {
   display: flex;
   flex-direction: column;
   justify-content: center; 
-  align-items: left;    
+  padding-left: 20px; /* Gap between logo and text */
 }
 
-.title-line-1 { font-size: 20px; }
+.title-line-1 { font-size: 20px; opacity: 0.9; }
+.title-line-2 { font-size: 28px; font-weight: bold; }
 
-.title-line-2 { font-size: 28px; }
-
-.menu-toggle {
-    display: none;
-    padding: 10px 20px;
-    background: var(--download-button-blue);
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
-    margin-left: 15px;
+/* --- SIDEBAR & MAIN --- */
+.layout-wrapper {
+  display: flex;
+  flex-grow: 1;
+  align-items: stretch;
 }
 
-/*
-#middle-wrapper {
-    display: flex; flex: 1;
+#navig-rail-container {
+  width: 260px;
+  flex-shrink: 0;
+  background-color: var(--color-rail-bg);
+  border-right: 1px solid var(--color-border);
 }
-    */
 
-#navig-rail-container { width: 250px; background: #2c3e50; color: white; padding: 20px; }
+.navig-rail-container__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.5rem 0;
+  list-style: none;
+}
 
-.navig-rail-container__list {  
-  list-style-type: none;            
-  padding: 0;                       
+#navig-rail-container button {
+  width: calc(100% - 2rem);
+  margin: 0 1rem;
+  padding: 0.75rem 1rem;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  color: var(--color-text-on-dark);
   text-align: left;
-  margin: 15px;                     
-  flex: 0 0 230px;                  
-} 
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
 
-#navig-rail-container__item {
-  color: #000000 !important;
-  text-decoration: none;
-  font-size: 1.0rem;                
-  line-height: 1.5;
-  text-transform: capitalize; 
+#navig-rail-container button.active {
+  background-color: #3b82f6; 
+  color: white;
 }
 
 #content-panel-container {
-  padding: 2rem;
-  background-color: #f9f9f9;
-  min-height: 100vh;
-  flex: 1; background: var(--bg); padding: 20px; 
-  transition: opacity 0.3s ease-in-out;
+  background-color: var(--color-content-bg);
+  flex-grow: 1;
+  padding: 2.5rem;
+  overflow-y: auto;
 }
 
-/* 2. THE GRID: Handles the horizontal "side-by-side" layout */
-.gallery-grid {
-  display: flex; 
-  flex-wrap: wrap; 
-  gap: 20px;
+/* --- THE GALLERY GRID & CARDS --- */
+/* Responsive Gallery Grid */
+.doc-gallery {
+display: grid !important;
+  width: 100%;
+  /* This creates the gap between cards (2.5rem = 40px) */
+  gap: 2.5rem; 
+  /* Standardises the columns */
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  /* Ensures the grid starts from the left so gaps are visible */
+  justify-content: start; 
+  padding: 1rem 0;
+  /* Using 1fr ensures even a single card (CV) stays within its grid track */
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  box-sizing: border-box;
+  margin: 0 auto;
 }
 
-/* 3. THE CARD: Each document thumbnail */
 .doc-card {
-  flex: 1 1 300px; 
-  max-width: 400px; 
-  background: var(--card-bg); 
-  border-radius: 8px;
+/* Ensure the card fills the grid cell but doesn't blow out */
+  max-width: 320px; 
+  
+  /* Keep your existing elevation and background styles */
+  background-color: var(--color-card-bg);
+  border-radius: 12px;
+  box-shadow: var(--shadow-card);
+  
+  /* Add a little bottom margin as a safety for vertical spacing */
+  margin-bottom: 1rem; 
+
+
+
   display: flex;
-  flex-direction: column; 
-  padding: 15px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  flex-direction: column;
+  overflow: hidden; /* Clips the image bottom */
+  margin: 0;               /* Remove any auto-margins that might center/shrink it */
+    padding: 1.5rem;
+    border: 1px solid var(--color-border);
+    animation: cardFadeIn 0.4s ease-out;
 }
 
-.doc-card__preview {}
+.doc-card__preview {
+width: 100%;
+  /* This creates the 'window' height */
+  height: 380px; 
+  overflow: hidden;
+  position: relative;
 
-.doc-card__content {}
+  /* This creates a consistent 'window' for all cards */
+  aspect-ratio: 3 / 4; 
+  background-color: #fff;
+  border-bottom: 1px solid var(--color-border); 
+}
+
+.doc-card__preview img {
+  width: 100%;
+  height: 100%;
+  /* MAGIC COMBO: 'cover' + 'top' preserves ratio and cuts the bottom */
+  object-fit: cover; 
+  object-position: top;
+  display: block;
+ 
+  /* Positions the image at the very top of the 'window' */
+  position: absolute;
+  top: 0;
+  left: 0;
+  
+  /* Ensures no stretching occurs */
+  object-fit: contain; 
+  object-position: top;
+}
+
+.doc-card__title {
+  font-family: "Georgia", serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0.5rem 0 1.5rem 0;
+  flex-grow: 1; /* Pushes buttons to the bottom of the card */
+}
 
 .doc-card__actions {
-  margin: 10px; width: 100%; text-align: center;
-}
-
-.doc-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-/* 4. THE PREVIEW: Ensuring the PNG fits perfectly */
-.doc-card img {
-  width: 100%; height: auto;
+  display: flex;
+  gap: 10px;
 }
 
 .btn-view, .btn-download {
- padding: 8px;
- width: 20px;
- text-align: center;
- border: 1px solid var(--border-color);
- border-radius: 8px;
- font-size: 0.85rem;
- font-weight: 600;
- opacity: 0.7;
+  height: 40px;
+  border-radius: 6px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
 }
 
-.btn-view {
- background-color: var(--view-button-gray);
- color: #303538; 
+.btn-view { flex: 2; background-color: #4a6572; color: white; }
+.btn-download { flex: 1.2; background-color: #6d8271; color: white; }
+
+/* --- FOOTER --- */
+footer {
+  background-color: var(--color-frame-bg);
+  color: var(--color-text-on-dark);
+  padding: 1rem 2rem;
+  text-align: center;
+  border-top: 1px solid rgba(255,255,255,0.1);
 }
 
-.btn-download {
- background-color: var(--download-button-blue);
- color: #213a50;
+@keyframes cardFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.btn-view:hover, .btn-download:hover {
- opacity: 1.0;
+/* Hide hamburger by default (Desktop) */
+.menu-toggle {
+    display: none;
 }
 
-.document-viewer {}
-
-.full-preview {}
-
-#footer {}
-
-#footer-line1 { text-align: center; margin-bottom: 0px; }
-
-#footer-line2 { text-align: center; margin-top: 2px; }
+/* Show only on Mobile (Standard breakpoint) */
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: block;
+    }
+    
+    /* Collapse sidebar on mobile if needed */
+    #navig-rail-container {
+        display: none; /* Toggle this with JS later */
+    }
+}

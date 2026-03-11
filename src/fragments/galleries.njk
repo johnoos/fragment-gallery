@@ -3,34 +3,37 @@ pagination:
   data: fetchNavigationTree
   size: 1
   alias: cat
+# Use 'cat.slug' from FOLDERIDENTIFIERS for the filename
 permalink: "/fragments/galleries/{{ cat.slug }}.html"
 ---
-<!-- The Architectural Wrapper -->
-<div class="gallery-grid">
-  
+<div class="doc-gallery">  <!-- GRID PARENT -->
   {% for doc in cat.pdfs %}
-    <div class="doc-card" data-category="{{ cat.slug }}" data-slug="{{ doc.slug }}">
-      
-      <div class="doc-card__preview">
-        <img src="{{ doc.previewUrl }}" alt="{{ doc.title }} preview" loading="lazy">
-      </div>
-
-      <div class="doc-card__content">
-        <h3 class="doc-card__title">{{ doc.title }}</h3>
-        
-        <div class="doc-card__actions">
-          <button class="btn-view" data-category="{{ cat.slug }}" data-slug="{{ doc.slug }}">
-            View
-          </button>
-          <a href="{{ doc.url }}" class="btn-download" download>
-            Download
-          </a>
-        </div>
-      </div>
-
+    <div class="doc-card"> <!-- GRID CHILD -->
+    <div class="doc-card__preview">
+      {# Use 'doc.previewUrl' from PDFIDENTIFIERS #}
+      <img src="{{ doc.previewUrl }}" alt="{{ doc.cleanedTitle }} preview">
     </div>
-  {% endfor %}
 
+    <div class="doc-card__footer">
+      {# Use 'doc.cleanedTitle' (already formatted as "PhD Music") #}
+      <h3 class="doc-card__title">{{ doc.cleanedTitle }}</h3>
+      
+      <div class="doc-card__actions">
+        {# Use both slugs for your AJAX navigation #}
+        <button class="btn-view" 
+          data-type="pdf"
+          data-url="{{ doc.url }}">
+  View PDF
+</button>
+
+        {# Use 'doc.url' for the physical PDF path #}
+        <a href="{{ doc.url }}" class="btn-download" download>
+          Download
+        </a>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
 </div>
 
 

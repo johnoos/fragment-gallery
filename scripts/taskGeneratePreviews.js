@@ -12,7 +12,7 @@ const __dirname = path.dirname(__filename);
 
 const PATHS = {
   pdfSource: path.resolve(__dirname, '../src/assets/pdfs'),
-  imgOutput: path.resolve(__dirname, '../_site/assets/previews')
+  imgOutput: path.resolve(__dirname, '../src/assets/previews')
 };
 
 // --- CORE UTILITIES ---

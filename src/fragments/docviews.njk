@@ -3,9 +3,10 @@ pagination:
   data: fetchPDFManifest
   size: 1
   alias: doc
-permalink: "/fragments/docs/{{ doc.category }}/{{ doc.slug }}.html"
+permalink: >
+  /fragments/docs/{{ doc.category | replace("01-", "") | replace("02-", "") }}/{{ doc.slug | replace("01-", "") | replace("02-", "") }}.html
 ---
 <div class="document-viewer">
-  <h2>{{ doc.name }}</h2>
+  <h2 class="doc-view__title">{{ doc.name }}</h2>
   <img src="{{ doc.imagePath }}" class="full-preview" alt="{{ doc.name }}">
 </div>

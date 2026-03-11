@@ -1,17 +1,11 @@
-<nav id="navig-rail-container">
+<nav id="navig-rail-container" aria-label="Main Category Navigation">
   <ul class="navig-rail-container__list">
     {% for menuItem in fetchNavigationTree %}
-    <li class="navig-rail-container__item">
-      {% set targetUrl = "/menuItemPage/" + menuItem.menuItemSlug + "/" %}
-      {% set pushUrl = "/" + menuItem.menuItemSlug + "/" %}
-
-      <button data-category="{{ menuItem.category | slugify }}" 
-              title="{{ menuItem.category }}">
-          {{ menuItem.category }}
-      </button>
-      
-    </li>
-    {% endfor %}
+  {# No filters needed - 'menuItem.slug' and 'menuItem.cleanedTitle' are ready #}
+  <button data-category="{{ menuItem.slug }}">
+    {{ menuItem.cleanedTitle }}
+  </button>
+{% endfor %}
   </ul>
 </nav>
 
