@@ -69,17 +69,26 @@ header {
 .title-line-2 { font-size: 28px; font-weight: bold; }
 
 /* --- SIDEBAR & MAIN --- */
+/* altered for mobile */
 .layout-wrapper {
   display: flex;
   flex-grow: 1;
   align-items: stretch;
 }
 
+/* --- DESKTOP NAV PANEL --- */
 #navig-rail-container {
   width: 260px;
   flex-shrink: 0;
   background-color: var(--color-rail-bg);
   border-right: 1px solid var(--color-border);
+  
+  /* Ensure it is visible on Desktop */
+  display: block; 
+  position: relative; 
+  left: 0; 
+  height: auto;
+  z-index: 10;
 }
 
 .navig-rail-container__list {
@@ -109,16 +118,17 @@ header {
 }
 
 #content-panel-container {
+padding: 1.5rem; /* Tighter padding for small screens */
   background-color: var(--color-content-bg);
   flex-grow: 1;
-  padding: 2.5rem;
   overflow-y: auto;
 }
 
 /* --- THE GALLERY GRID & CARDS --- */
 /* Responsive Gallery Grid */
 .doc-gallery {
-display: grid !important;
+  justify-items: center;
+  display: grid !important;
   width: 100%;
   /* This creates the gap between cards (2.5rem = 40px) */
   gap: 2.5rem; 
@@ -144,9 +154,6 @@ display: grid !important;
   
   /* Add a little bottom margin as a safety for vertical spacing */
   margin-bottom: 1rem; 
-
-
-
   display: flex;
   flex-direction: column;
   overflow: hidden; /* Clips the image bottom */
@@ -231,17 +238,58 @@ footer {
 
 /* Hide hamburger by default (Desktop) */
 .menu-toggle {
-    display: none;
+  display: none; 
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 100;
+  background: var(--color-rail-bg);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.2);
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
 }
 
 /* Show only on Mobile (Standard breakpoint) */
 @media (max-width: 768px) {
-    .menu-toggle {
-        display: block;
-    }
+  .menu-toggle {
+    display: block; /* Show hamburger */
+  }
+
+  .doc-card {
+    /* This OVERRIDES the 320px so the card fills the phone screen */
+    max-width: 100%; 
     
-    /* Collapse sidebar on mobile if needed */
-    #navig-rail-container {
-        display: none; /* Toggle this with JS later */
-    }
+    /* Optional: reduce padding so the image can be larger on small screens */
+    padding: 1rem; 
+  }
+  
+  .doc-gallery {
+    /* Switch to a single column so cards aren't squished side-by-side */
+    grid-template-columns: 1fr; 
+    gap: 1.5rem;
+  }
+
+  @media (max-width: 768px) {
+  #navig-rail-container {
+    /* 1. Hide it off-screen to the left */
+    position: fixed;
+    left: -280px; 
+    top: 0;
+    width: 280px;
+    height: 100vh;
+    z-index: 90;
+    
+    /* 2. Smooth Slide Animation */
+    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 10px 0 20px rgba(0,0,0,0.2);
+  }
+
+  /* 3. The "Show" State (Triggered by JS) */
+  #navig-rail-container.mobile-open {
+    left: 0;
+  }
 }
+}
+

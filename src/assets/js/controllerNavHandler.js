@@ -1,3 +1,20 @@
+/**
+ * Toggles the mobile sidebar visibility
+ */
+window.toggleMenu = function() {
+  const sidebar = document.getElementById('navig-rail-container');
+  const menuBtn = document.querySelector('.menu-toggle');
+  
+  if (sidebar) {
+    sidebar.classList.toggle('mobile-open');
+    
+    // Optional: Update button icon if the menuBtn exists
+    if (menuBtn) {
+      menuBtn.textContent = sidebar.classList.contains('mobile-open') ? '✕' : '☰';
+    }
+  }
+};
+
 const UI_CONFIG = {
   containerId: 'content-panel-container',
   navSelector: '.navig-rail-container__list',
@@ -41,20 +58,30 @@ document.addEventListener('DOMContentLoaded', () => {
   // 2. MAIN STAGE (Cards & PDF View)
   if (mainStage) {
     mainStage.addEventListener('click', (e) => {
+      // A. Handle the "View PDF" button (Enhanced)
       const pdfBtn = e.target.closest('button[data-type="pdf"]');
       if (pdfBtn) {
-        const pdfUrl = pdfBtn.dataset.url;
-        // Save where we came from so Back button works
-        const currentPath = window.location.hash.replace('#', '');
-        window.history.pushState({ path: currentPath }, '', '#pdf-view');
-        
+        const { url, title } = pdfBtn.dataset;
+        window.history.pushState({ isPdf: true }, '', '#viewer');
+
+        document.body.style.overflow = 'hidden'; // Prevent background scrolling
+
         mainStage.innerHTML = `
           <div class="pdf-viewer-container">
-            <button class="btn-back" id="js-back-btn">← Back to Gallery</button>
-            <iframe src="${pdfUrl}" width="100%" height="800px" style="border:none;"></iframe>
+            <header class="viewer-toolbar">
+              <button class="btn-back" id="js-close-viewer">✕ Close</button>
+              <span style="color:white; font-weight:500;">${title || 'Document Viewer'}</span>
+              <div class="btn-group">
+                <a href="${url}" download class="btn-download" style="padding: 5px 15px; height: auto;">Download</a>
+              </div>
+            </header>
+            <iframe src="${url}#toolbar=0" title="PDF Viewer"></iframe>
           </div>`;
-        
-        document.getElementById('js-back-btn')?.addEventListener('click', () => window.history.back());
+
+        document.getElementById('js-close-viewer').onclick = () => {
+          document.body.style.overflow = ''; 
+          window.history.back();
+        };
         return;
       }
 
