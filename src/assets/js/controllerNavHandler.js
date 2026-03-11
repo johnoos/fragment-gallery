@@ -67,16 +67,95 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.style.overflow = 'hidden'; // Prevent background scrolling
 
         mainStage.innerHTML = `
-          <div class="pdf-viewer-container">
-            <header class="viewer-toolbar">
-              <button class="btn-back" id="js-close-viewer">✕ Close</button>
-              <span style="color:white; font-weight:500;">${title || 'Document Viewer'}</span>
-              <div class="btn-group">
-                <a href="${url}" download class="btn-download" style="padding: 5px 15px; height: auto;">Download</a>
-              </div>
-            </header>
-            <iframe src="${url}#toolbar=0" title="PDF Viewer"></iframe>
-          </div>`;
+  <style>
+    /* 1. Reset and lock the root container */
+    .pdf-viewer-container {
+      display: flex !important;
+      flex-direction: column !important;
+      position: fixed !important;
+      top: 0; left: 0; bottom: 0; right: 0;
+      width: 100vw !important;
+      height: 100vh !important;
+      background: #333;
+      z-index: 10000;
+      overflow: hidden; /* Hard boundary for the whole app */
+    }
+
+    /* 2. Create a toolbar that respects screen width */
+    .viewer-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+      padding: 0 16px;
+      background: #222;
+      flex-shrink: 0; /* Header cannot be squashed vertically */
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    /* 3. The Title Hack: Prevent it from pushing buttons off-screen */
+    .viewer-title {
+      flex: 1; /* Take all available space */
+      min-width: 0; /* CRITICAL: Allows title to shrink below its text width */
+      color: white;
+      font-weight: 500;
+      margin: 0 15px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis; /* Adds '...' if title is too long */
+    }
+
+    /* 4. Fix the Download Button: Prevent stretching or shrinking */
+    .btn-group {
+      flex-shrink: 0; /* Locks the button group so it's NEVER cut off */
+      display: flex;
+    }
+
+    .btn-download {
+      display: inline-flex;
+      align-items: center;
+      background: #007bff;
+      color: white;
+      text-decoration: none;
+      padding: 6px 14px;
+      border-radius: 4px;
+      font-size: 14px;
+      white-space: nowrap;
+      width: auto !important; /* Forces it to only be as wide as the text */
+    }
+
+    /* 5. Fix the Iframe: Force it to respect the parent width */
+    .pdf-viewer-container iframe {
+      flex: 1; /* Fills remaining vertical space */
+      width: 100%;
+      height: 100%;
+      border: none;
+      min-width: 0; /* Allows horizontal shrinking on resize */
+      min-height: 0; /* Allows vertical shrinking on resize */
+    }
+
+    .btn-back {
+      flex-shrink: 0;
+      background: #444;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+  </style>
+
+  <div class="pdf-viewer-container">
+    <header class="viewer-toolbar">
+      <button class="btn-back" id="js-close-viewer">✕ Close</button>
+      <span class="viewer-title">${title || 'Document Viewer'}</span>
+      <div class="btn-group">
+        <a href="${url}" download class="btn-download">Download</a>
+      </div>
+    </header>
+    <iframe src="${url}#view=FitH" title="PDF Viewer"></iframe>
+  </div>`;
 
         document.getElementById('js-close-viewer').onclick = () => {
           document.body.style.overflow = ''; 
