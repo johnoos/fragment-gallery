@@ -293,8 +293,11 @@ footer {
 
   /* Hamburger button visible */
   .menu-toggle {
-    margin-top: 0.5rem;   /* Adjust as needed */
-    margin-left: 0.5rem;  /* optional, for padding from left */
+    display: block;        /* ensure it is shown */
+    position: relative;    /* make sure it’s not hidden by flex/table */
+    z-index: 1100;         /* above sidebar and other content */
+    margin-top: 0.5rem;    /* slightly lower so it doesn’t overlap top panel */
+    font-size: 1.2rem;     /* bigger for touch */
   }
 
   .doc-card {
