@@ -2,9 +2,9 @@
   <ul class="navig-rail-container__list">
     {% for menuItem in fetchNavigationTree %}
   {# No filters needed - 'menuItem.slug' and 'menuItem.cleanedTitle' are ready #}
-  <button data-category="{{ menuItem.slug }}">
-    {{ menuItem.cleanedTitle }}
-  </button>
+    <li><button data-category="{{ menuItem.slug }}">
+      {{ menuItem.cleanedTitle }}
+    </button></li>li>
 {% endfor %}
   </ul>
 </nav>

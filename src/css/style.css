@@ -288,11 +288,12 @@ footer {
 /* Show only on Mobile (Standard breakpoint) */
 @media (max-width: 768px) {
   .top-panel-table td[style*="width: 15px"] {
-    width: 5px !important;
+    width: 2px !important;
   }
 
   .title-lines {
-    font-size: 0.9rem;        /* optional: slightly smaller text on mobile */
+    font-size: 0.85rem;        /* slightly smaller */
+    white-space: nowrap;        /* prevent internal wrap */
   }
 
   .no-break-mobile {
@@ -301,30 +302,34 @@ footer {
 
   /* Hamburger button visible */
   .menu-toggle {
+    font-size: 1rem;
+    margin-top: 0.3rem;
+
     display: block !important;
     position: relative;   /* make sure it’s not hidden by flex/table */
     z-index: 1100;
-    margin-top: 0.5rem;
-    font-size: 1.2rem;
   }
 
-  .doc-card {
-    max-width: 100%;
-    padding: 1rem;
-  }
-
-  .doc-gallery {
+  .gallery-grid {
+    display: grid;
     grid-template-columns: 1fr;
-    gap: 1.5rem;
+    gap: 1rem;
   }
 
   /* Sidebar slides over content */
   #navig-rail-container {
-    position: fixed !important;
+    position: fixed;
     top: 0;
-    left: -280px !important;
+    left: -280px;
     width: 280px;
-    height: 100vh;
+    height: 100vh;           /* full viewport height */
+    background: white;       /* ensure it has a background */
+    overflow-y: auto;        /* allow scrolling */
+    -webkit-overflow-scrolling: touch;
+    z-index: 1000;
+    transition: left 0.3s ease;
+    box-shadow: 10px 0 20px rgba(0,0,0,0.2);
+
     flex: none !important;
     z-index: 1000;
     background: white;
@@ -354,8 +359,45 @@ footer {
 
   /* Content takes full width */
   #content-panel-container {
+    scrollbar-width: thin;
+    height: calc(100vh - 120px); 
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
     width: 100% !important;
     margin-left: 0 !important;
+
+  }
+
+  #content-panel-container::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  #content-panel-container::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.35);
+    border-radius: 4px;
+  }
+
+  #content-panel-container::after {
+    content: "";
+    position: sticky;
+    bottom: 0;
+    display: block;
+    height: 30px;
+    background: linear-gradient(
+      rgba(255,255,255,0),
+      rgba(255,255,255,0.9)
+    );
+    pointer-events: none;
+  }
+
+  .doc-card {
+    max-width: 100%;
+    padding: 1rem;
+  }
+
+  .doc-gallery {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
 
   /* Optional: if the wrapper flex still interferes */

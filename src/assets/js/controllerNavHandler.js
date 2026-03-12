@@ -2,22 +2,24 @@
  * Toggles the mobile sidebar visibility
  */
 window.toggleMenu = function() {
+
   const sidebar = document.getElementById('navig-rail-container');
+  const overlay = document.getElementById('sidebar-overlay');
   const menuBtn = document.querySelector('.menu-toggle');
-  const overlay = document.getElementById('menu-overlay');
 
-  if (sidebar) {
-    sidebar.classList.toggle('mobile-open');
+  if (!sidebar) return;
 
-    if (overlay) {
-      overlay.classList.toggle('active');
-    }
+  sidebar.classList.toggle('mobile-open');
 
-    if (menuBtn) {
-      menuBtn.textContent =
-        sidebar.classList.contains('mobile-open') ? '✕' : '☰';
-    }
+  if (overlay) {
+    overlay.classList.toggle('active');
   }
+
+  if (menuBtn) {
+    menuBtn.textContent =
+      sidebar.classList.contains('mobile-open') ? '✕' : '☰';
+  }
+
 };
 
 const UI_CONFIG = {
@@ -48,6 +50,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const navRoot = document.querySelector(UI_CONFIG.navSelector);
   const mainStage = document.getElementById(UI_CONFIG.containerId);
   const allBtns = document.querySelectorAll('button[data-category]');
+
+  const overlay = document.getElementById('sidebar-overlay');
+
+if (overlay) {
+  overlay.addEventListener('click', () => {
+    document.getElementById('navig-rail-container')
+      .classList.remove('mobile-open');
+    overlay.classList.remove('active');
+  });
+}
 
   // 1. SIDEBAR NAVIGATION
   if (navRoot) {
