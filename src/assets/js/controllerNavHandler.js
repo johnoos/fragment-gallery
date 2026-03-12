@@ -184,6 +184,28 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  // Global click listener to close mobile sidebar
+  document.addEventListener('click', function(e) {
+    const sidebar = document.getElementById('navig-rail-container');
+    const overlay = document.getElementById('menu-overlay');
+    const menuBtn = document.querySelector('.menu-toggle');
+
+    if (!sidebar || !sidebar.classList.contains('mobile-open')) return;
+
+    // If click is inside sidebar or menu button, ignore
+    if (sidebar.contains(e.target) || menuBtn.contains(e.target)) return;
+
+    // If click is inside PDF viewer (or any other overlay you want to ignore), ignore
+    if (e.target.closest('.pdf-viewer-container')) return;
+
+    // Otherwise, close the sidebar
+    sidebar.classList.remove('mobile-open');
+    overlay.classList.remove('active');
+    document.body.classList.remove('menu-open');
+
+    if (menuBtn) menuBtn.textContent = '☰';
+  }); 
+
   // 4. BOOTSTRAP (Extra Guarded)
   const hashPath = window.location.hash.replace('#', '');
   

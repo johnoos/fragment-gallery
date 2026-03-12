@@ -290,7 +290,8 @@ footer {
 
   /* Hamburger button visible */
   .menu-toggle {
-    display: block;
+    margin-top: 0.5rem;   /* Adjust as needed */
+    margin-left: 0.5rem;  /* optional, for padding from left */
   }
 
   .doc-card {
@@ -305,6 +306,8 @@ footer {
 
   /* Sidebar slides over content */
   #navig-rail-container {
+    overflow-y: auto;      /* allows scrolling */
+    -webkit-overflow-scrolling: touch;  /* smooth scrolling on iOS */
     position: fixed !important;
     top: 0;
     left: -280px !important;  /* hidden offscreen */
@@ -317,6 +320,20 @@ footer {
     background: white;
     transition: left 0.3s ease;
     box-shadow: 10px 0 20px rgba(0,0,0,0.2);
+  }
+
+  .navig-rail-container__list {
+    display: flex;
+    flex-direction: column;  /* stack buttons vertically */
+    padding: 1rem 0;         /* optional padding top/bottom */
+    margin: 0;
+    list-style: none;
+  }
+
+  .navig-rail-container__list button {
+    width: 100%;
+    margin: 0.25rem 0;
+    text-align: left;
   }
 
   #navig-rail-container.mobile-open {
