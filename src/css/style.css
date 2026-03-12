@@ -287,44 +287,43 @@ footer {
 
 /* Show only on Mobile (Standard breakpoint) */
 @media (max-width: 768px) {
+
   .menu-toggle {
-    display: block; /* Show hamburger */
+    display: block;
   }
 
   .doc-card {
-    /* This OVERRIDES the 320px so the card fills the phone screen */
-    max-width: 100%; 
-    
-    /* Optional: reduce padding so the image can be larger on small screens */
-    padding: 1rem; 
+    max-width: 100%;
+    padding: 1rem;
   }
-  
+
   .doc-gallery {
-    /* Switch to a single column so cards aren't squished side-by-side */
-    grid-template-columns: 1fr; 
+    grid-template-columns: 1fr;
     gap: 1.5rem;
-  
+  }
+
   #navig-rail-container {
-    /* 1. Hide it off-screen to the left */
     position: fixed;
-    left: -280px; 
+    left: -280px;
     top: 0;
     width: 280px;
     height: 100vh;
     z-index: 90;
-    
-    /* 2. Smooth Slide Animation */
     transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 10px 0 20px rgba(0,0,0,0.2);
   }
 
-  /* 3. The "Show" State (Triggered by JS) */
   #navig-rail-container.mobile-open {
     left: 0;
   }
-}
 
-.viewer-toolbar { padding: 0 1rem; }
-  .viewer-toolbar span { display: none; } /* Hide filename on small screens */
+  .viewer-toolbar {
+    padding: 0 1rem;
+  }
+
+  .viewer-toolbar span {
+    display: none;
+  }
+
 }
 
