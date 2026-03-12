@@ -303,21 +303,20 @@ footer {
     gap: 1.5rem;
   }
 
-  /* Sidebar becomes floating overlay */
+  /* Sidebar slides over content */
   #navig-rail-container {
     position: fixed !important;
     top: 0;
-    left: -280px !important;
+    left: -280px !important;  /* hidden offscreen */
     width: 280px;
     height: 100vh;
 
-    flex: none !important;
-    display: block !important;
-
+    flex: none !important;     /* removes from flex layout */
     z-index: 1000;
-    background: white;
 
+    background: white;
     transition: left 0.3s ease;
+    box-shadow: 10px 0 20px rgba(0,0,0,0.2);
   }
 
   #navig-rail-container.mobile-open {
@@ -328,6 +327,11 @@ footer {
   #content-panel-container {
     width: 100% !important;
     margin-left: 0 !important;
+  }
+
+  /* Optional: if the wrapper flex still interferes */
+  .layout-wrapper {
+    display: block !important;
   }
 
   .viewer-toolbar {
