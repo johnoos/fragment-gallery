@@ -288,6 +288,7 @@ footer {
 /* Show only on Mobile (Standard breakpoint) */
 @media (max-width: 768px) {
 
+  /* Hamburger button visible */
   .menu-toggle {
     display: block;
   }
@@ -302,15 +303,24 @@ footer {
     gap: 1.5rem;
   }
 
+  #content-panel-container {
+    width: 100%;
+    flex-grow: 1;
+  }
+
   #navig-rail-container {
+    z-index: 1000;
     position: fixed;
-    left: -280px;
     top: 0;
+    left: -280px;
     width: 280px;
     height: 100vh;
-    z-index: 90;
-    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 10px 0 20px rgba(0,0,0,0.2);
+
+    flex: none;          /* prevents flex layout from reserving space */
+    z-index: 1000;
+
+    background: white;
+    transition: left 0.3s ease;
   }
 
   #navig-rail-container.mobile-open {
@@ -324,6 +334,32 @@ footer {
   .viewer-toolbar span {
     display: none;
   }
+
+  /* Main content must use full width */
+  .content-area {
+    width: 100%;
+  }
+
+  #menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  background: rgba(0,0,0,0.35);
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+
+  z-index: 900;
+}
+
+#menu-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
 
 }
 

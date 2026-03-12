@@ -4,13 +4,18 @@
 window.toggleMenu = function() {
   const sidebar = document.getElementById('navig-rail-container');
   const menuBtn = document.querySelector('.menu-toggle');
-  
+  const overlay = document.getElementById('menu-overlay');
+
   if (sidebar) {
     sidebar.classList.toggle('mobile-open');
-    
-    // Optional: Update button icon if the menuBtn exists
+
+    if (overlay) {
+      overlay.classList.toggle('active');
+    }
+
     if (menuBtn) {
-      menuBtn.textContent = sidebar.classList.contains('mobile-open') ? '✕' : '☰';
+      menuBtn.textContent =
+        sidebar.classList.contains('mobile-open') ? '✕' : '☰';
     }
   }
 };
