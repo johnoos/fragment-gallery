@@ -14,6 +14,11 @@
   --shadow-card: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
+html, body { /* prevents the entire page from scrolling */
+  height: 100%;
+  overflow: hidden;
+}
+
 /* Base Layout */
 body {
   display: flex;
@@ -72,6 +77,8 @@ header {
 /* altered for mobile */
 .layout-wrapper {
   display: flex;
+  height: 100vh;
+
   flex-grow: 1;
   align-items: stretch;
 }
@@ -118,7 +125,8 @@ header {
 }
 
 #content-panel-container {
-padding: 1.5rem; /* Tighter padding for small screens */
+  padding-bottom: 3rem;
+  padding: 1.5rem; /* Tighter padding for small screens */
   background-color: var(--color-content-bg);
   flex-grow: 1;
   overflow-y: auto;
