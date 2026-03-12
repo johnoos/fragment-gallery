@@ -287,6 +287,9 @@ footer {
 
 /* Show only on Mobile (Standard breakpoint) */
 @media (max-width: 768px) {
+  .no-break-mobile {
+    white-space: nowrap;   /* prevents line break inside the span */
+  }
 
   /* Hamburger button visible */
   .menu-toggle {
