@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ title or "Fragment Gallery" }}</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/desktop.css">
+    <link rel="stylesheet" href="/css/mobile.css">
 </head>
 <body>
     {% include "partials/header.html" %}
@@ -16,6 +18,11 @@
             <main id="content-panel-container">
                 {% block main %}{% endblock %}
             </main>   
+    </div>
+    
+    <!-- Spinner overlay -->
+    <div id="page-spinner" class="spinner-overlay" style="display: none;">
+        <div class="spinner"></div>
     </div>
 
     {% include "partials/footer.html" %}

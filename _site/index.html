@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Welcome</title>
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/desktop.css">
+    <link rel="stylesheet" href="/css/mobile.css">
+</head>
+<body>
+    <header class="top-panel-container">
+  <table class="top-panel-table">
+    <tr>
+      <td><img src="/assets/images/logo.png" alt="Logo" class="logo"></td> <!-- col 1 = logo -->
+      <td style="width: 15px;"></td>                                <!-- col2 = spacer -->
+      <td class="title-lines">
+        <div class="title-line-1">John Oosthuizen&nbsp;|&nbsp;<span class="no-break-mobile">PhD Music</span></div>
+        <div class="title-line-2">Academic Portfolio</div>
+      </td>
+      <td>
+        <div id="menu-overlay"></div>
+          <button class="menu-toggle" onclick="toggleMenu()">☰ Menu</button>
+      </td>
+    </tr>
+  </table>
+</header>
+
+    <div class="layout-wrapper">
+            <nav id="navig-rail-container" aria-label="Main Category Navigation">
+  <ul class="navig-rail-container__list">
+    
+  
+    <li><button data-category="curriculum-vitae">
+      Curriculum Vitae
+    </button></li>
+
+  
+    <li><button data-category="academic-credentials">
+      Academic Credentials
+    </button></li>
+
+  
+    <li><button data-category="phd-examiner-reports-and-other-references">
+      PhD Examiner Reports And Other References
+    </button></li>
+
+  
+    <li><button data-category="academic-transcripts">
+      Academic Transcripts
+    </button></li>
+
+  
+    <li><button data-category="theses">
+      Theses
+    </button></li>
+
+  
+    <li><button data-category="publications--academic-and-technical">
+      Publications, Academic And Technical
+    </button></li>
+
+  
+    <li><button data-category="enterprise-it-architecture-certifications">
+      Enterprise IT Architecture Certifications
+    </button></li>
+
+  
+    <li><button data-category="international-exposure">
+      International Exposure
+    </button></li>
+
+  </ul>
+</nav>
+
+
+
+
+            
+            <main id="content-panel-container">
+                
+            </main>   
+    </div>
+    
+    <!-- Spinner overlay -->
+    <div id="page-spinner" class="spinner-overlay" style="display: none;">
+        <div class="spinner"></div>
+    </div>
+
+    <footer id="footer">
+  <div>
+      <p id="footer-line1">© 2026 Dr. John Oosthuizen. All rights reserved.</p>
+      <p id="footer-line2">March 2026</p>
+  </div>
+</footer>
+
+    <div id="menu-overlay"></div> 
+
+<script type="module" src="/assets/js/controllerNavHandler.js"></script>
+</body>
+</html>
