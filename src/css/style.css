@@ -295,9 +295,39 @@ footer {
 
 /* Show only on Mobile (Standard breakpoint) */
 @media (max-width: 768px) {
-  .top-panel-table td[style*="width: 15px"] {
-    width: 2px !important;
+  .top-panel-table {
+    padding-left: 6px;  /* keeps logo visible */
+    padding-right: 6px; /* optional, keeps hamburger from touching edge */
+    width: 100%;
+    table-layout: fixed;
   }
+
+  .top-panel-table td:nth-child(1) .logo {
+    max-width: 60px;   /* ensures it doesn’t overflow */
+    height: auto;      /* keep aspect ratio */
+  }
+
+  .top-panel-table td:nth-child(2) {
+    width: 0 !important; 
+    padding: 0 !important;
+  }
+
+  .top-panel-table td:nth-child(3) {
+    width: auto !important;
+  }
+
+  .top-panel-table td:nth-child(4) {
+    width: 1% !important;
+    white-space: nowrap;
+    text-align: right;
+  }
+
+  .menu-toggle {
+    display: block !important;   /* ensure visible on mobile */
+    margin-right: 4px;           /* keep inside viewport */
+    font-size: 0.95rem;          /* optional smaller font */
+  }
+}
 
   .title-lines {
     font-size: 0.85rem;        /* slightly smaller */
@@ -306,16 +336,6 @@ footer {
 
   .no-break-mobile {
     white-space: nowrap;   /* prevents line break inside the span */
-  }
-
-  /* Hamburger button visible */
-  .menu-toggle {
-    font-size: 1rem;
-    margin-top: 0.3rem;
-
-    display: block !important;
-    position: relative;   /* make sure it’s not hidden by flex/table */
-    z-index: 1100;
   }
 
   .gallery-grid {
