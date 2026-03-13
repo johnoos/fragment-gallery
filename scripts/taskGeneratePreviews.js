@@ -12,7 +12,8 @@ const __dirname = path.dirname(__filename);
 
 const PATHS = {
   pdfSource: path.resolve(__dirname, '../src/assets/pdfs'),
-  imgOutput: path.resolve(__dirname, '../src/assets/previews')
+  imgOutput: path.resolve(__dirname, '../src/assets/previews'),
+  siteOutput: path.resolve(__dirname, '../_site')
 };
 
 // --- CORE UTILITIES ---
@@ -22,6 +23,30 @@ function ensureOutputDirectory() {
   if (!fs.existsSync(PATHS.imgOutput)) {
     fs.mkdirSync(PATHS.imgOutput, { recursive: true });
     console.log(`📁 Created output directory: ${PATHS.imgOutput}`);
+  }
+}
+
+/** Removes all existing preview images before regeneration */
+function clearPreviewDirectory() {
+  const files = fs.readdirSync(PATHS.imgOutput);
+
+  for (const file of files) {
+    const filePath = path.join(PATHS.imgOutput, file);
+
+    // Only delete files, not subdirectories (extra safety)
+    if (fs.lstatSync(filePath).isFile()) {
+      fs.unlinkSync(filePath);
+    }
+  }
+
+  console.log(`🧹 Cleared preview directory: ${PATHS.imgOutput}`);
+}
+
+/** Deletes the Eleventy output folder to ensure a clean build */
+function clearSiteOutput() {
+  if (fs.existsSync(PATHS.siteOutput)) {
+    fs.rmSync(PATHS.siteOutput, { recursive: true, force: true });
+    console.log(`🧹 Cleared Eleventy output: ${PATHS.siteOutput}`);
   }
 }
 
@@ -59,7 +84,9 @@ async function convertPdfToImage(pdfPath, outputPath, slug) {
 
 async function main() {
   console.log("🚀 Starting Preview Generation...");
+  clearSiteOutput();        
   ensureOutputDirectory();
+  clearPreviewDirectory();
 
   if (!fs.existsSync(PATHS.pdfSource)) {
     console.error("❌ Source folder not found:", PATHS.pdfSource);

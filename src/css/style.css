@@ -74,11 +74,11 @@ header {
 .title-line-2 { font-size: 28px; font-weight: bold; }
 
 /* --- SIDEBAR & MAIN --- */
-/* altered for mobile */
 .layout-wrapper {
-  display: flex;
+display: flex;
   height: 100vh;
-
+  min-height: 0;
+  min-height: 0;
   flex-grow: 1;
   align-items: stretch;
 }
@@ -125,8 +125,8 @@ header {
 }
 
 #content-panel-container {
-  padding-bottom: 3rem;
-  padding: 1.5rem; /* Tighter padding for small screens */
+  padding: 1.5rem;
+  padding-bottom: 2.5rem;
   background-color: var(--color-content-bg);
   flex-grow: 1;
   overflow-y: auto;
@@ -206,7 +206,7 @@ width: 100%;
   font-family: "Georgia", serif;
   font-size: 1.1rem;
   font-weight: 600;
-  margin: 0.5rem 0 1.5rem 0;
+  margin: 0.5rem 0 0.5rem; 0;
   flex-grow: 1; /* Pushes buttons to the bottom of the card */
 }
 
@@ -367,9 +367,10 @@ footer {
 
   /* Content takes full width */
   #content-panel-container {
-    scrollbar-width: thin;
-    height: calc(100vh - 120px); 
+    height: calc(100vh - 120px); /* adjust for header height */
     overflow-y: auto;
+    padding-bottom: 4rem;
+    scrollbar-width: thin;
     -webkit-overflow-scrolling: touch;
     width: 100% !important;
     margin-left: 0 !important;
