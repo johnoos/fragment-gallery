@@ -1,60 +1,46 @@
-// pdfViewer.js
 export function openPdfViewer(url, title = 'Document Viewer') {
-  // Prevent background scrolling
+  // 1. Prevent background scrolling
   document.body.style.overflow = 'hidden';
 
   const viewerContainer = document.createElement('div');
   viewerContainer.classList.add('pdf-viewer-container');
 
-  // Toolbar
+  // 2. Toolbar Setup
   const toolbar = document.createElement('header');
   toolbar.classList.add('viewer-toolbar');
-  // ... setup btnBack, viewerTitle, btnDownload as before
 
-  const iframe = document.createElement('iframe');
-  iframe.src = `${url}#view=FitH`;
-  iframe.title = 'PDF Viewer';
-
-  viewerContainer.appendChild(toolbar);
-  viewerContainer.appendChild(iframe);
-  document.body.appendChild(viewerContainer);
-
-  // Wait for iframe to load, then hide spinner
-  iframe.addEventListener('load', () => {
-    hideSpinner();   // <-- hide the global spinner
-  });
-}
+  const btnBack = document.createElement('button');
+  btnBack.textContent = 'Close';
+  btnBack.onclick = () => {
+    document.body.removeChild(viewerContainer);
+    document.body.style.overflow = ''; // Restore scrolling
+  };
 
   const viewerTitle = document.createElement('span');
   viewerTitle.classList.add('viewer-title');
   viewerTitle.textContent = title;
 
-  const btnGroup = document.createElement('div');
-  btnGroup.classList.add('btn-group');
-
   const btnDownload = document.createElement('a');
-  btnDownload.classList.add('btn-download');
   btnDownload.href = url;
   btnDownload.download = '';
   btnDownload.textContent = 'Download';
 
-  btnGroup.appendChild(btnDownload);
-  toolbar.appendChild(btnBack);
-  toolbar.appendChild(viewerTitle);
-  toolbar.appendChild(btnGroup);
+  toolbar.append(btnBack, viewerTitle, btnDownload);
 
+  // 3. Iframe Setup
   const iframe = document.createElement('iframe');
   iframe.src = `${url}#view=FitH`;
   iframe.title = 'PDF Viewer';
 
+  // 4. Spinner logic (Assuming an element with id 'spinner' exists)
+  const spinner = document.getElementById('spinner');
+  if (spinner) spinner.classList.add('active');
 
-
-  viewerContainer.appendChild(toolbar);
-  viewerContainer.appendChild(iframe);
-  document.body.appendChild(viewerContainer);
-
-  spinner.classList.add('active');
   iframe.addEventListener('load', () => {
-    spinner.classList.remove('active');
+    if (spinner) spinner.classList.remove('active');
   });
+
+  // 5. Assemble and Inject
+  viewerContainer.append(toolbar, iframe);
+  document.body.appendChild(viewerContainer);
 }

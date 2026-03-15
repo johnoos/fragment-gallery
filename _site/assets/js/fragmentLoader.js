@@ -1,14 +1,7 @@
 // fragmentLoader.js
 
-export function showSpinner() {
-  const spinner = document.getElementById('page-spinner');
-  spinner?.classList.add('active');
-}
-
-export function hideSpinner() {
-  const spinner = document.getElementById('page-spinner');
-  spinner?.classList.remove('active');
-}
+import { showSpinner } from './utils.js';
+import { hideSpinner } from './utils.js';
 
 export async function loadFragment(path, pushToHistory = true) {
   showSpinner();

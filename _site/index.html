@@ -4,21 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Welcome</title>
-    <link rel="stylesheet" href="/css/base.css">
-    <link rel="stylesheet" href="/css/desktop.css">
-    <link rel="stylesheet" href="/css/mobile.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <header class="top-panel-container">
+    <div class="outer-wrapper">
+        <header class="top-panel-container">
   <table class="top-panel-table">
-    <tr>
-      <td><img src="/assets/images/logo.png" alt="Logo" class="logo"></td> <!-- col 1 = logo -->
-      <td style="width: 15px;"></td>                                <!-- col2 = spacer -->
-      <td class="title-lines">
+    <tr class="top-panel-row">
+      <td><img src="/assets/images/logo.png" alt="Logo" class="logo-cell"></td> <!-- col 1 = logo -->
+      <td class="title-cell">
         <div class="title-line-1">John Oosthuizen&nbsp;|&nbsp;<span class="no-break-mobile">PhD Music</span></div>
         <div class="title-line-2">Academic Portfolio</div>
       </td>
-      <td>
+      <td class="menu-cell">
         <div id="menu-overlay"></div>
           <button class="menu-toggle" onclick="toggleMenu()">☰ Menu</button>
       </td>
@@ -26,8 +24,8 @@
   </table>
 </header>
 
-    <div class="layout-wrapper">
-            <nav id="navig-rail-container" aria-label="Main Category Navigation">
+        <div class="middle-wrapper">
+                <nav id="navig-rail-container" aria-label="Main Category Navigation">
   <ul class="navig-rail-container__list">
     
   
@@ -66,8 +64,8 @@
     </button></li>
 
   
-    <li><button data-category="international-exposure">
-      International Exposure
+    <li><button data-category="international-courses">
+      International Courses
     </button></li>
 
   </ul>
@@ -76,25 +74,24 @@
 
 
 
-            
-            <main id="content-panel-container">
                 
-            </main>   
-    </div>
-    
-    <!-- Spinner overlay -->
-    <div id="page-spinner" class="spinner-overlay" style="display: none;">
-        <div class="spinner"></div>
-    </div>
+                <main id="content-panel-container">
+                    
+                </main>   
+        </div>
 
-    <footer id="footer">
-  <div>
+        <footer id="site-footer"> 
+  <!-- .main-footer is your "hook" for internal layout and JS updates -->
+  <div class="main-footer" id="dynamic-footer-content">
       <p id="footer-line1">© 2026 Dr. John Oosthuizen. All rights reserved.</p>
       <p id="footer-line2">March 2026</p>
   </div>
 </footer>
 
-    <div id="menu-overlay"></div> 
+        <!-- Spinner overlay -->
+        <div id="spinner" class="spinner-overlay"></div>
+        <div id="menu-overlay"></div> 
+    </div>    
 
 <script type="module" src="/assets/js/controllerNavHandler.js"></script>
 </body>

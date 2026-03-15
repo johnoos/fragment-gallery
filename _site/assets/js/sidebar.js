@@ -5,7 +5,11 @@ export function toggleSidebar() {
   const menuBtn = document.querySelector('.menu-toggle');
   if (!sidebar) return;
 
-  sidebar.classList.toggle('mobile-open');
+
+  sidebar.classList.toggle('open');
+    console.log('Sidebar toggled. Classes:', sidebar.className);
+
+  /* sidebar.classList.toggle('mobile-open'); */
   overlay?.classList.toggle('active');
 
   if (menuBtn) {

@@ -1,6 +1,7 @@
 // controllerNavHandler.js
 import { openPdfViewer } from './pdfViewer.js';
-import { loadFragment, showSpinner, hideSpinner } from './fragmentLoader.js';
+import { loadFragment } from './fragmentLoader.js';
+import { showSpinner, hideSpinner } from './utils.js';
 import { toggleSidebar, closeSidebarIfClickedOutside } from './sidebar.js';
 import { setupHistory } from './historyManager.js';
 
@@ -17,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Sidebar click
   navRoot?.addEventListener('click', (e) => {
     const btn = e.target.closest('button[data-category]');
+    console.log('Button clicked:', btn?.dataset.category);
     if (!btn) return;
     allBtns.forEach(b => b.classList.remove('active'));
     btn.classList.add('active');

@@ -25,11 +25,12 @@ export function setupHistory(allBtns) {
       }
     }
   } else {
-    const firstBtn = allBtns[0];
+    const firstBtn = allBtns?.[0];
     const mainStage = document.getElementById('content-panel-container');
-    if (mainStage && !mainStage.innerHTML.trim()) {
-      firstBtn.classList.add('active');
-      loadFragment(`/fragments/galleries/${firstBtn.dataset.category}.html`);
+
+    if (mainStage && firstBtn && !mainStage.innerHTML.trim()) {
+        firstBtn.classList.add('active');
+        loadFragment(`/fragments/galleries/${firstBtn.dataset.category}.html`, false);
     }
   }
 }
