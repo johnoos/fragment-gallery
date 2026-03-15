@@ -99,19 +99,31 @@
 
   /* #region Responsive (Desktop Upgrade) */
     @media (min-width: 768px) {
-      .middle-wrapper { flex-direction: row; } /* Side-by-side */
-      
-      #navig-rail-container { 
-        position: static; 
-        transform: none !important; 
-        height: auto; 
-        flex-shrink: 0; 
-        width: 260px; 
-        box-shadow: none;
-        border-right: 1px solid var(--color-border);
+      div.outer-wrapper div.middle-wrapper #navig-rail-container {
+        position: static !important;
+        transform: none !important;
+        display: flex !important;
+        visibility: visible !important;
+        left: 0 !important;
+        width: 260px !important;
+        flex-shrink: 0 !important;
+      }
+      /* Force the container to be a row, not a column */
+      .middle-wrapper {
+        flex-direction: row !important;
+        display: flex !important;
       }
       
-      .menu-cell, .menu-toggle { display: none !important; }
+      #navig-rail-container { 
+        height: auto !important;       /* Let it fill the middle-wrapper height */
+        border-right: 1px solid var(--color-border);
+        box-shadow: none;
+      }
+
+      /* 3. Hide mobile-only elements */
+      .menu-toggle, .menu-cell { 
+        display: none !important; 
+      }  
 
       #content-panel-container { padding: 1.5rem; padding-bottom: 2.5rem; }
 
@@ -188,7 +200,23 @@
 
 /* #region 4. DOCUMENT CARDS & GALLERY */
   /* #region Structure */
-    .doc-gallery { 
+  .viewer-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+    /* Use 'padding' instead of 'gap' to keep buttons away from the screen edge */
+    padding: 0 1rem; 
+    box-sizing: border-box; /* Ensures padding doesn't increase width */
+    width: 100%;
+  }
+
+  /* Prevent the download link from shrinking or getting cut off */
+  .viewer-toolbar a, .viewer-toolbar button {
+    flex-shrink: 0; 
+    margin: 0 5px;
+  }
+  .doc-gallery { 
       display: grid; 
       gap: 1.5rem; 
       grid-template-columns: 1fr; /* Mobile default */
@@ -236,8 +264,13 @@
   /* #region Structure */
     .spinner-overlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 20000; justify-content: center; align-items: center; pointer-events: none; }
     .spinner-overlay.active { display: flex !important; pointer-events: auto; }
-    .pdf-viewer-container { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; display: flex; flex-direction: column; z-index: 2000; overflow: hidden; }
-    .viewer-toolbar { display: flex; justify-content: space-between; align-items: center; height: 60px; padding: 0 2rem; }
+    .pdf-viewer-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; display: flex; flex-direction: column; z-index: 20000; overflow: hidden; }
+    .viewer-toolbar { display: flex; justify-content: space-between; align-items: center; height: 60px; padding: 0 2rem; box-sizing: border-box; width: 100%}
+    .viewer-toolbar a, 
+    .viewer-toolbar button {
+      flex-shrink: 0; /* Prevents the button from being "crushed" on mobile */
+      white-space: nowrap;
+    }
     .pdf-viewer-container iframe { flex-grow: 1; border: none; width: 100%; }
   /* #endregion */
 
@@ -246,6 +279,33 @@
     .spinner-overlay::after { content: ""; width: 48px; height: 48px; border: 6px solid #f3f3f3; border-top: 6px solid #007bff; border-radius: 50%; animation: spin 1s linear infinite; }
     .pdf-viewer-container { background: var(--color-frame-bg); }
     .viewer-toolbar { background: var(--color-rail-bg); box-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+    /* The "Perfection" Download Button */
+    .viewer-toolbar a {
+      background-color: #3b82f6; /* Vibrant Blue for high visibility */
+      color: #ffffff !important; /* Pure White text */
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: background 0.2s ease;
+    }
+
+    .viewer-toolbar a:hover {
+      background-color: #2563eb; /* Slightly deeper blue on hover */
+    }
+
+    .viewer-title {
+      color: #ffffff;
+      font-weight: 500;
+      font-size: 0.9rem;
+      /* Hide title on very small phones to save space for buttons */
+      display: none; 
+    }
+
+    @media (min-width: 480px) {
+      .viewer-title { display: block; }
+    }
     @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
   /* #endregion */
 /* #endregion */

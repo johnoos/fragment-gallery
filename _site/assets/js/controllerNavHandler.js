@@ -16,14 +16,29 @@ document.addEventListener('DOMContentLoaded', () => {
   setupHistory(allBtns);
 
   // Sidebar click
-  navRoot?.addEventListener('click', (e) => {
-    const btn = e.target.closest('button[data-category]');
-    console.log('Button clicked:', btn?.dataset.category);
-    if (!btn) return;
-    allBtns.forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    loadFragment(`/fragments/galleries/${btn.dataset.category}.html`);
-  });
+navRoot?.addEventListener('click', (e) => {
+  const btn = e.target.closest('button[data-category]');
+  if (!btn) return;
+
+  // 1. UI Feedback: Update Active State
+  allBtns.forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  // 2. Data Load: Fetch the fragment
+  loadFragment(`/fragments/galleries/${btn.dataset.category}.html`);
+
+  // 3. UX: Close Sidebar on Mobile
+  // Get the actual sidebar element (id from our new CSS)
+  const sidebarContainer = document.getElementById('navig-rail-container');
+  
+  if (window.innerWidth < 768 && sidebarContainer) {
+    // Only use ONE class name consistently across CSS and JS
+    sidebarContainer.classList.remove('open'); 
+    
+    // Optional: If you use a 'menu-overlay' to dim the background, close it too
+    document.getElementById('menu-overlay')?.classList.remove('active');
+  }
+});
 
   // Main stage click (PDF or other docs)
   mainStage?.addEventListener('click', (e) => {
