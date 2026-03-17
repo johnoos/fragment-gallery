@@ -10,6 +10,71 @@
       --color-text-main: #111827;
       --shadow-card: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
     }
+    /* 
+       This property reserves the 'gutter' space on some browsers,
+       which can make the scrollbar's appearance less jarring.
+    */
+    #content-panel-container {
+      scrollbar-gutter: stable;
+    }
+    /* 1. Define the width of the scrollbar area */
+    #content-panel-container::-webkit-scrollbar {
+      width: 6px; 
+      display: block; /* Force it to exist as an element */
+    }
+
+    /* 2. Style the 'Track' (the background of the scrollbar) */
+    #content-panel-container::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.05); /* Very faint grey */
+      border-radius: 10px;
+    }
+
+    /* 3. Style the 'Thumb' (the part the user moves) */
+    #content-panel-container::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.2); /* Semi-transparent grey */
+      border-radius: 10px;
+
+      background-color: rgba(0, 0, 0, 0.5) !important; /* Darker for mobile */
+      border: 1px solid rgba(255, 255, 255, 0.8);    /* High contrast edge */
+    }
+
+    /* 4. Optional: Make the thumb darker when active/scrolling */
+    #content-panel-container::-webkit-scrollbar-thumb:active {
+      background: rgba(0, 0, 0, 0.4);
+    }
+    /* Force scrollbar to be visible in Webkit browsers (iOS Safari, Chrome) */
+    #navig-rail-container::-webkit-scrollbar,
+    #content-panel-container::-webkit-scrollbar {
+      -webkit-appearance: none;
+      width: 7px; /* Visible width */
+      display: block !important;
+    }
+
+    #navig-rail-container::-webkit-scrollbar-thumb,
+    #content-panel-container::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.4); /* Dark enough to be seen */
+  border-radius: 10px;
+  border: 2px solid transparent; /* Creates a 'floating' look */
+  background-clip: content-box;
+    }
+    #navig-rail-container::-webkit-scrollbar-track,
+    #content-panel-container::-webkit-scrollbar-track {
+      background-color: rgba(0, 0, 0, 0.05); /* Faint background for the track */
+    }
+    @keyframes stageFadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    /* 
+       Wisdom: Ensure this class ONLY handles the animation. 
+       It should not redeclare 'display' or 'height'.
+    */
+    .fade-in-active {
+      animation: stageFadeIn 0.4s ease-out forwards;
+      /* Force the container to remain a scrollable area */
+      overflow-y: auto !important;
+    }
+
   /* #endregion */
 
   /* #region Global Resets (Structure) */
@@ -37,23 +102,38 @@
       height: 100vh; 
       width: 100%; 
     }
-    header, footer { flex-shrink: 0; width: 100%; }
-    
+    .outer-wrapper.pdf-active #navig-rail-container {
+      display: none !important;
+    }
+    header, footer { 
+      flex-shrink: 0;
+      position: relative; /* REQUIRED: Enables z-index to work */
+      z-index: 1000;      /* Rank them higher than any content or PDF */
+      width: 100%; }
+    header {
+      position: relative; /* Required for z-index to work */
+      z-index: 1000;      /* High enough to stay on top of the PDF */
+    }
     .middle-wrapper { 
-      display: flex; 
-      flex: 1; 
-      min-height: 0; 
-      overflow: hidden; 
+      display: flex;
+      flex: 1;
+      overflow: hidden; /* Keeps the sandwich contained */
+      min-height: 0;    /* CRITICAL: Allows children to scroll */ 
       flex-direction: column; /* Stack on mobile */
     }
 
-    #content-panel-container { 
-      flex: 1; 
-      overflow-y: auto; 
-      width: 100%;
-      -webkit-overflow-scrolling: touch; 
-      padding: 1rem; 
-      padding-bottom: 4rem; 
+    #content-panel-container {
+      flex: 1;
+      overflow-y: auto; /* The actual scrollbar */
+      min-height: 0;    /* Ensuring the flex-child can shrink/scroll */
+      position: relative;
+      z-index: 1;         /* Keeps the entire stage below the header/footer */
+      overflow: hidden;   /* Clip the PDF to this box */
+      /* ADD THIS LINE: It traps the PDF inside this box on desktop */
+      -webkit-overflow-scrolling: touch;
+      padding: 1.5rem;
+      padding-bottom: 5rem;
+      width: 100%; 
       scrollbar-width: thin;
     }
     #content-panel-container::-webkit-scrollbar { width: 6px; }
@@ -61,17 +141,38 @@
 
     /* Mobile Sidebar: Hidden Overlay */
     #navig-rail-container {
+      align-items: stretch;
+      height: 100vh;          
+      padding-top: env(safe-area-inset-top); /* Fix for 'notch' phones */
+      z-index: 900;
       position: fixed; 
       top: 0; 
       left: 0; 
       width: 280px; 
-      height: 100vh;
-      z-index: 21000 !important; 
       transform: translateX(-100%); 
       transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       background-color: var(--color-rail-bg);
       visibility: hidden; /* Prevent ghost clicks when closed */
       overflow: auto;
+
+      display: flex;
+      flex-direction: column;
+      /* WISDOM: Ensure the list starts at the very top, not centered */
+      justify-content: flex-start !important; /* CRITICAL: Prevents pushing top items off-screen */ 
+      /* WISDOM: Allow the sidebar itself to scroll if the list is long */
+      overflow-y: auto;       /* Allows scrolling if items exceed screen height */
+      -webkit-overflow-scrolling: touch;
+    }
+    .navig-rail-container__list {
+      justify-content: flex-start;
+      padding: 1rem 0; /* Add top padding to clear any header overlap */
+      margin: 0;
+
+      padding-top: 100px !important; 
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin: 0;
     }
     #navig-rail-container.open { transform: translateX(0); visibility: visible; }
     #navig-rail-container.active { transform: translateX(0); }
@@ -240,6 +341,18 @@
 
   /* #region Responsive (Desktop) */
     @media (min-width: 768px) {
+      .pdf-viewer-container {
+        /* 
+          Change from Fixed (Screen-wide) to Absolute (Panel-wide).
+          We use !important to guarantee the 'trap' works.
+        */
+        position: absolute !important; 
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;  /* Fills ONLY the content-panel width */
+        height: 100% !important; /* Fills ONLY the content-panel height */
+        z-index: 100;            /* Lower than header/footer (1000) */  
+      }
       .doc-gallery { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2.5rem; }
       .doc-card { margin: 0; }
       .logo-cell img {
