@@ -1,0 +1,62 @@
+<h1>Content Management Guide</h1>
+<p>This guide ensures all academic entries follow a consistent format for the <a href="https://www.11ty.dev">Eleventy Data Cascade</a>.</p>
+<h2>📄 Publications &amp; Papers</h2>
+<p>Place new publications in <code>src/content/publications/</code> as Markdown files.</p>
+<h3>Front Matter Schema</h3>
+<p>Every publication file MUST include these fields:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Field</th>
+<th style="text-align:left">Type</th>
+<th style="text-align:left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>title</code></td>
+<td style="text-align:left">String</td>
+<td style="text-align:left">Full title of the paper.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>date</code></td>
+<td style="text-align:left">YYYY-MM-DD</td>
+<td style="text-align:left">Publication date (used for chronological sorting).</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>venue</code></td>
+<td style="text-align:left">String</td>
+<td style="text-align:left">Journal or conference name (e.g., &quot;Nature&quot;, &quot;CVPR&quot;).</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>doi</code></td>
+<td style="text-align:left">String</td>
+<td style="text-align:left">(Optional) DOI link for verification.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>pdf</code></td>
+<td style="text-align:left">String</td>
+<td style="text-align:left">Path to file (e.g., <code>/assets/pdf/filename.pdf</code>).</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>tags</code></td>
+<td style="text-align:left">Array</td>
+<td style="text-align:left">Research areas (e.g., <code>[&quot;AI&quot;, &quot;Ethics&quot;]</code>).</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>🛠 Projects &amp; Research</h2>
+<p>Place these in <code>src/content/projects/</code>.</p>
+<h3>Requirements</h3>
+<ul>
+<li><strong>Thumbnails:</strong> Every project must have a corresponding image in <code>src/assets/img/projects/</code>.</li>
+<li><strong>Status:</strong> Use a <code>status</code> field in the front matter (<code>&quot;Ongoing&quot;</code>, <code>&quot;Completed&quot;</code>, or <code>&quot;Archived&quot;</code>).</li>
+</ul>
+<hr>
+<h2>🖼 Media Guidelines</h2>
+<ul>
+<li><strong>Accessibility:</strong> Always include an <code>alt</code> attribute: <code>![Description of image](/path/to/image.jpg)</code>.</li>
+<li><strong>Optimization:</strong> Use <a href="https://squoosh.app">Squoosh</a> to compress images before committing to GitHub.</li>
+<li><strong>Large Files:</strong> For posters or high-res PDFs, ensure they are tracked via <a href="https://git-lfs.github.com">Git LFS</a>.</li>
+</ul>
