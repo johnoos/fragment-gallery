@@ -1,0 +1,424 @@
+/* #region 1. GLOBALS & TOKENS */
+  /* #region Variables (Skin) */
+    :root {
+      --color-frame-bg: #1f2937;
+      --color-rail-bg: #374151;
+      --color-content-bg: #f3f4f6;
+      --color-card-bg: #ffffff;
+      --color-border: #e5e7eb;
+      --color-text-on-dark: #f9fafb;
+      --color-text-main: #111827;
+      --shadow-card: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+    /* 
+       This property reserves the 'gutter' space on some browsers,
+       which can make the scrollbar's appearance less jarring.
+    */
+    #content-panel-container {
+      scrollbar-gutter: stable;
+    }
+    /* 1. Define the width of the scrollbar area */
+    #content-panel-container::-webkit-scrollbar {
+      width: 6px; 
+      display: block; /* Force it to exist as an element */
+    }
+
+    /* 2. Style the 'Track' (the background of the scrollbar) */
+    #content-panel-container::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.05); /* Very faint grey */
+      border-radius: 10px;
+    }
+
+    /* 3. Style the 'Thumb' (the part the user moves) */
+    #content-panel-container::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.2); /* Semi-transparent grey */
+      border-radius: 10px;
+
+      background-color: rgba(0, 0, 0, 0.5) !important; /* Darker for mobile */
+      border: 1px solid rgba(255, 255, 255, 0.8);    /* High contrast edge */
+    }
+
+    /* 4. Optional: Make the thumb darker when active/scrolling */
+    #content-panel-container::-webkit-scrollbar-thumb:active {
+      background: rgba(0, 0, 0, 0.4);
+    }
+    /* Force scrollbar to be visible in Webkit browsers (iOS Safari, Chrome) */
+    #navig-rail-container::-webkit-scrollbar,
+    #content-panel-container::-webkit-scrollbar {
+      -webkit-appearance: none;
+      width: 7px; /* Visible width */
+      display: block !important;
+    }
+
+    #navig-rail-container::-webkit-scrollbar-thumb,
+    #content-panel-container::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.4); /* Dark enough to be seen */
+  border-radius: 10px;
+  border: 2px solid transparent; /* Creates a 'floating' look */
+  background-clip: content-box;
+    }
+    #navig-rail-container::-webkit-scrollbar-track,
+    #content-panel-container::-webkit-scrollbar-track {
+      background-color: rgba(0, 0, 0, 0.05); /* Faint background for the track */
+    }
+    @keyframes stageFadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    /* 
+       Wisdom: Ensure this class ONLY handles the animation. 
+       It should not redeclare 'display' or 'height'.
+    */
+    .fade-in-active {
+      animation: stageFadeIn 0.4s ease-out forwards;
+      /* Force the container to remain a scrollable area */
+      overflow-y: auto !important;
+    }
+
+  /* #endregion */
+
+  /* #region Global Resets (Structure) */
+    html, body { 
+      height: 100%; 
+      margin: 0; 
+      overflow: hidden; /* Stop browser window scroll */
+    }
+    body { 
+      display: flex; 
+      flex-direction: column; 
+      color: var(--color-text-main); 
+      font-family: system-ui, -apple-system, sans-serif; 
+    }
+    .navig-rail-container__list { list-style: none; padding: 0; margin: 0; }
+    .no-break-mobile { white-space: nowrap; }
+  /* #endregion */
+/* #endregion */
+
+/* #region 2. SITE SHELL (The Flexbox Sandwich) */
+  /* #region Structure (Skeleton - Mobile First) */
+    .outer-wrapper { 
+      display: flex; 
+      flex-direction: column; 
+      height: 100vh; 
+      width: 100%; 
+    }
+    .outer-wrapper.pdf-active #navig-rail-container {
+      display: none !important;
+    }
+    header, footer { 
+      flex-shrink: 0;
+      position: relative; /* REQUIRED: Enables z-index to work */
+      z-index: 1000;      /* Rank them higher than any content or PDF */
+      width: 100%; }
+    header {
+      position: relative; /* Required for z-index to work */
+      z-index: 1000;      /* High enough to stay on top of the PDF */
+    }
+    .middle-wrapper { 
+      display: flex;
+      flex: 1;
+      overflow: hidden; /* Keeps the sandwich contained */
+      min-height: 0;    /* CRITICAL: Allows children to scroll */ 
+      flex-direction: column; /* Stack on mobile */
+    }
+
+    #content-panel-container {
+      flex: 1;
+      overflow-y: auto; /* The actual scrollbar */
+      min-height: 0;    /* Ensuring the flex-child can shrink/scroll */
+      position: relative;
+      z-index: 1;         /* Keeps the entire stage below the header/footer */
+      overflow: hidden;   /* Clip the PDF to this box */
+      /* ADD THIS LINE: It traps the PDF inside this box on desktop */
+      -webkit-overflow-scrolling: touch;
+      padding: 1.5rem;
+      padding-bottom: 5rem;
+      width: 100%; 
+      scrollbar-width: thin;
+    }
+    #content-panel-container::-webkit-scrollbar { width: 6px; }
+    #content-panel-container::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.35); border-radius: 4px; }
+
+    /* Mobile Sidebar: Hidden Overlay */
+    #navig-rail-container {
+      align-items: stretch;
+      height: 100vh;          
+      padding-top: env(safe-area-inset-top); /* Fix for 'notch' phones */
+      z-index: 900;
+      position: fixed; 
+      top: 0; 
+      left: 0; 
+      width: 280px; 
+      transform: translateX(-100%); 
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      background-color: var(--color-rail-bg);
+      visibility: hidden; /* Prevent ghost clicks when closed */
+      overflow: auto;
+
+      display: flex;
+      flex-direction: column;
+      /* WISDOM: Ensure the list starts at the very top, not centered */
+      justify-content: flex-start !important; /* CRITICAL: Prevents pushing top items off-screen */ 
+      /* WISDOM: Allow the sidebar itself to scroll if the list is long */
+      overflow-y: auto;       /* Allows scrolling if items exceed screen height */
+      -webkit-overflow-scrolling: touch;
+    }
+    .navig-rail-container__list {
+      justify-content: flex-start;
+      padding: 1rem 0; /* Add top padding to clear any header overlap */
+      margin: 0;
+
+      padding-top: 100px !important; 
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin: 0;
+    }
+    #navig-rail-container.open { transform: translateX(0); visibility: visible; }
+    #navig-rail-container.active { transform: translateX(0); }
+  /* #endregion */
+
+  /* #region Skin (Decor) */
+    header, footer { background-color: var(--color-frame-bg); color: var(--color-text-on-dark); }
+    footer { text-align: center; padding: 1rem 0; border-top: 1px solid rgba(255,255,255,0.1); }
+    #navig-rail-container { 
+      background-color: var(--color-rail-bg) !important; 
+      box-shadow: 4px 0 15px rgba(0,0,0,0.4); 
+    }
+    #navig-rail-container a, #navig-rail-container button {
+      color: var(--color-text-on-dark) !important;
+      padding: 15px 20px;
+      display: block;
+      width: 100%;
+      text-align: left;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      cursor: pointer;
+    }
+  /* #endregion */
+
+  /* #region Responsive (Desktop Upgrade) */
+    @media (min-width: 768px) {
+      div.outer-wrapper div.middle-wrapper #navig-rail-container {
+        position: static !important;
+        transform: none !important;
+        display: flex !important;
+        visibility: visible !important;
+        left: 0 !important;
+        width: 260px !important;
+        flex-shrink: 0 !important;
+      }
+      /* Force the container to be a row, not a column */
+      .middle-wrapper {
+        flex-direction: row !important;
+        display: flex !important;
+      }
+      
+      #navig-rail-container { 
+        height: auto !important;       /* Let it fill the middle-wrapper height */
+        border-right: 1px solid var(--color-border);
+        box-shadow: none;
+      }
+
+      /* 3. Hide mobile-only elements */
+      .menu-toggle, .menu-cell { 
+        display: none !important; 
+      }  
+
+      #content-panel-container { padding: 1.5rem; padding-bottom: 2.5rem; }
+
+      /* Desktop Sidebar Button Style */
+      #navig-rail-container button {
+        width: calc(100% - 2rem);
+        margin: 0 1rem;
+        border-radius: 8px;
+        border-bottom: none;
+      }
+      #navig-rail-container button.active { background-color: #3b82f6; color: white !important; }
+    }
+  /* #endregion */
+/* #endregion */
+
+/* #region 3. TOP PANEL & BRANDING */
+  /* #region Structure */
+    .top-panel { display: flex; justify-content: center; align-items: center; min-height: 80px; padding: 20px; }
+    .top-panel-table { border-collapse: separate !important; border-spacing: 0; width: auto !important; margin: 0 auto; }
+    .logo-cell img { max-height: 80px; width: auto; }
+
+    @media (max-width: 767px) {
+      .top-panel { justify-content: space-between; padding: 10px 15px; }
+      .top-panel-table { border-spacing: 12px 0 !important; }
+      .logo-cell { width: 80px !important; min-width: 80px !important; }
+      .title-line-1 { font-size: 0.85rem; }
+      .title-line-2 { font-size: 1rem; }
+      .menu-cell { display: table-cell !important; text-align: right; width: 44px !important; }
+    }
+  /* #endregion */
+
+  /* #region Skin */
+
+  header {
+    height: auto; /* Allow padding to define the height */
+    min-height: 0; /* Reset previous constraints */
+  }
+
+  .top-panel-table td {
+    /* Force vertical padding on the cells themselves */
+    padding-top: 25px !important;
+    padding-bottom: 25px !important;
+    vertical-align: middle;
+}
+    .logo-cell img { max-height: 80px; width: auto; }
+    .title-line-1 { font-size: 20px; opacity: 0.9; }
+    .title-line-2 { font-size: 28px; font-weight: bold; }
+    .menu-toggle { font-size: 0.95rem; cursor: pointer; }
+  /* #endregion */
+  /* #region Responsive Upgrade (Desktop) */
+    @media (min-width: 768px) {
+      /* STRUCTURE: Extra vertical breathing room */
+      .top-panel { padding-top: 40px !important; padding-bottom: 40px !important; }
+      .logo-cell img {
+        /* 
+           Wisdom: Explicitly set a height for desktop to prevent 
+           the original PNG size from taking over.
+        */
+        max-height: 60px; 
+        width: auto;
+        transition: max-height 0.3s ease; /* Smooth transition if resizing window */
+      }
+      
+      .logo-cell {
+        width: 100px; /* Constrain the cell width to match the smaller logo */
+        padding-right: 20px;
+      }
+      
+      /* SKIN: If you wanted to change colors or font sizes for desktop, 
+         you'd put them here too. */
+    }
+  /* #endregion */
+/* #endregion */
+
+/* #region 4. DOCUMENT CARDS & GALLERY */
+  /* #region Structure */
+  .viewer-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+    /* Use 'padding' instead of 'gap' to keep buttons away from the screen edge */
+    padding: 0 1rem; 
+    box-sizing: border-box; /* Ensures padding doesn't increase width */
+    width: 100%;
+  }
+
+  /* Prevent the download link from shrinking or getting cut off */
+  .viewer-toolbar a, .viewer-toolbar button {
+    flex-shrink: 0; 
+    margin: 0 5px;
+  }
+  .doc-gallery { 
+      display: grid; 
+      gap: 1.5rem; 
+      grid-template-columns: 1fr; /* Mobile default */
+      width: 100%; 
+      padding: 1rem 0; 
+    }
+    .doc-card { display: flex; flex-direction: column; overflow: hidden; padding: 1.5rem; max-width: 320px; margin: 0 auto; }
+    .doc-card__preview { width: 100%; height: 380px; overflow: hidden; position: relative; }
+    .doc-card__actions { display: flex; gap: 10px; margin-top: auto; }
+    .btn-view, .btn-download { height: 40px; border-radius: 6px; font-weight: 600; display: flex; align-items: center; justify-content: center; cursor: pointer; border: none; text-decoration: none; }
+  /* #endregion */
+
+  /* #region Skin */
+    .doc-card { background-color: var(--color-card-bg); border-radius: 12px; box-shadow: var(--shadow-card); border: 1px solid var(--color-border); animation: cardFadeIn 0.4s ease-out; }
+    .doc-card__preview img { width: 100%; height: 100%; position: absolute; top: 0; left: 0; object-fit: cover; object-position: top; }
+    .doc-card__title { font-family: "Georgia", serif; font-size: 1.1rem; font-weight: 600; margin: 0.5rem 0; flex-grow: 1; }
+    .btn-view { flex: 2; background-color: #4a6572; color: white; }
+    .btn-download { flex: 1.2; background-color: #6d8271; color: white; }
+    @keyframes cardFadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  /* #endregion */
+
+  /* #region Responsive (Desktop) */
+    @media (min-width: 768px) {
+      .pdf-viewer-container {
+        /* 
+          Change from Fixed (Screen-wide) to Absolute (Panel-wide).
+          We use !important to guarantee the 'trap' works.
+        */
+        position: absolute !important; 
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;  /* Fills ONLY the content-panel width */
+        height: 100% !important; /* Fills ONLY the content-panel height */
+        z-index: 100;            /* Lower than header/footer (1000) */  
+      }
+      .doc-gallery { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2.5rem; }
+      .doc-card { margin: 0; }
+      .logo-cell img {
+        /* 
+           Wisdom: Explicitly set a height for desktop to prevent 
+           the original PNG size from taking over.
+        */
+        max-height: 60px; 
+        width: auto;
+        transition: max-height 0.3s ease; /* Smooth transition if resizing window */
+      }
+      
+      .logo-cell {
+        width: 100px; /* Constrain the cell width to match the smaller logo */
+        padding-right: 20px;
+      }
+    }
+  /* #endregion */
+/* #endregion */
+
+/* #region 5. OVERLAYS (Spinner & PDF) */
+  /* #region Structure */
+    .spinner-overlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 20000; justify-content: center; align-items: center; pointer-events: none; }
+    .spinner-overlay.active { display: flex !important; pointer-events: auto; }
+    .pdf-viewer-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; display: flex; flex-direction: column; z-index: 20000; overflow: hidden; }
+    .viewer-toolbar { display: flex; justify-content: space-between; align-items: center; height: 60px; padding: 0 2rem; box-sizing: border-box; width: 100%}
+    .viewer-toolbar a, 
+    .viewer-toolbar button {
+      flex-shrink: 0; /* Prevents the button from being "crushed" on mobile */
+      white-space: nowrap;
+    }
+    .pdf-viewer-container iframe { flex-grow: 1; border: none; width: 100%; }
+  /* #endregion */
+
+  /* #region Skin */
+    .spinner-overlay { background: rgba(255, 255, 255, 0.7); }
+    .spinner-overlay::after { content: ""; width: 48px; height: 48px; border: 6px solid #f3f3f3; border-top: 6px solid #007bff; border-radius: 50%; animation: spin 1s linear infinite; }
+    .pdf-viewer-container { background: var(--color-frame-bg); }
+    .viewer-toolbar { background: var(--color-rail-bg); box-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+    /* The "Perfection" Download Button */
+    .viewer-toolbar a {
+      background-color: #3b82f6; /* Vibrant Blue for high visibility */
+      color: #ffffff !important; /* Pure White text */
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: background 0.2s ease;
+    }
+
+    .viewer-toolbar a:hover {
+      background-color: #2563eb; /* Slightly deeper blue on hover */
+    }
+
+    .viewer-title {
+      color: #ffffff;
+      font-weight: 500;
+      font-size: 0.9rem;
+      /* Hide title on very small phones to save space for buttons */
+      display: none; 
+    }
+
+    @media (min-width: 480px) {
+      .viewer-title { display: block; }
+    }
+    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  /* #endregion */
+/* #endregion */
