@@ -16,29 +16,25 @@ document.addEventListener('DOMContentLoaded', () => {
   setupHistory(allBtns);
 
   // Sidebar click
-navRoot?.addEventListener('click', (e) => {
-  const btn = e.target.closest('button[data-category]');
-  if (!btn) return;
+  navRoot?.addEventListener('click', (e) => {
+    const btn = e.target.closest('button[data-category]');
+    if (!btn) return;
 
-  // 1. UI Feedback: Update Active State
-  allBtns.forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
+    // 1. UI Feedback: Update Active State
+    allBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
 
-  // 2. Data Load: Fetch the fragment
-  loadFragment(`/fragments/galleries/${btn.dataset.category}.html`);
+    // 2. Data Load: Fetch the fragment
+    loadFragment(`/fragments/galleries/${btn.dataset.category}.html`);
 
-  // 3. UX: Close Sidebar on Mobile
-  // Get the actual sidebar element (id from our new CSS)
-  const sidebarContainer = document.getElementById('navig-rail-container');
-  
-  if (window.innerWidth < 768 && sidebarContainer) {
-    // Only use ONE class name consistently across CSS and JS
-    sidebarContainer.classList.remove('open'); 
+    // 3. UX: Close Sidebar on Mobile
+    const sidebarContainer = document.getElementById('navig-rail-container');
     
-    // Optional: If you use a 'menu-overlay' to dim the background, close it too
-    document.getElementById('menu-overlay')?.classList.remove('active');
-  }
-});
+    if (window.innerWidth < 768 && sidebarContainer) {
+      sidebarContainer.classList.remove('open'); 
+      document.getElementById('menu-overlay')?.classList.remove('active');
+    }
+  });
 
   // Main stage click (PDF or other docs)
   mainStage?.addEventListener('click', (e) => {
@@ -56,4 +52,20 @@ navRoot?.addEventListener('click', (e) => {
       loadFragment(`/fragments/docs/${category}/${slug}.html`);
     }
   });
+
+  // ==========================================================================
+  // INCOMING SUBDOMAIN DEEP-LINK INTERCEPTOR ROUTE
+  // ==========================================================================
+  const incomingRoute = window.location.hash.replace('#', '');
+  if (incomingRoute) {
+    // Attempt to locate a menu button matching the incoming subdomain hash parameters
+    const targetButton = document.querySelector(`button[data-category="${incomingRoute}"]`);
+    if (targetButton) {
+      // 150ms buffer to ensure your fragment loader components have mounted
+      setTimeout(() => {
+        console.log(`[THE LOGIC PIPELINE] Subdomain route matched: ${incomingRoute}. Auto-triggering UI pipeline.`);
+        targetButton.click(); // Automates the internal fragment fetching pipeline natively
+      }, 150);
+    }
+  }
 });
