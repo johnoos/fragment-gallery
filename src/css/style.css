@@ -1540,3 +1540,192 @@ body .pipeline-landing .hero-hourglass-graphic {
     max-width: 100% !important;
     height: auto !important;
 }
+
+/* ==========================================================================
+   THE LOGIC PIPELINE - VIEWPORT GUTTER COMPACTION & COMPONENT BALANCING LOCK
+   ========================================================================== */
+
+/* 1. Halve Footer Height to 60px & Center Text Vertically */
+#site-footer, 
+.main-footer {
+    height: 60px !important;
+    min-height: 60px !important;
+    max-height: 60px !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-sizing: border-box !important;
+}
+
+#site-footer p, 
+#footer-line1 {
+    margin: 0 !important;
+    line-height: 60px !important;
+    font-size: 0.85rem !important;
+}
+
+/* 2. Symmetrical Centering Frame for the Landing Page Canvas */
+.pipeline-landing {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    align-items: stretch !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    background-color: var(--color-content-bg) !important; /* Uniform background track */
+    padding: 1.5rem !important; /* Injects an exact, matching 'white' box container track */
+}
+
+/* 3. Perfect Centering of the Hero Box With Symmetrical Breathing Room */
+.pipeline-hero {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%) !important;
+    color: #ffffff !important;
+    text-align: center !important;
+    border-radius: 8px !important;
+    box-shadow: none !important;
+    filter: none !important;
+    margin: 0 0 1.5rem 0 !important; /* Enforces clean gutter isolation to match container sides */
+    padding: 0 !important;
+    width: 100% !important;
+}
+
+.pipeline-hero .container {
+    padding-top: 2.5rem !important;
+    padding-bottom: 2.5rem !important;
+    margin: 0 auto !important;
+    max-width: 1100px !important;
+}
+
+/* 4. Halve the Gutters Between All Scrollable Content Sections */
+.pipeline-structuring,
+.pipeline-registry,
+.pipeline-delivery,
+.pipeline-cadence {
+    background-color: transparent !important;
+    margin: 0 0 1.5rem 0 !important; /* Cut spacing exactly in half to collapse dead space */
+    padding: 0 !important;
+    width: 100% !important;
+}
+
+.pipeline-landing .container {
+    width: 100% !important;
+    max-width: 1100px !important;
+    margin: 0 auto !important;
+    padding-top: 0.5rem !important;    /* Compressed top grid padding */
+    padding-bottom: 0.5rem !important; /* Compressed base grid padding */
+    box-sizing: border-box !important;
+}
+
+/* 5. Compact the Spacing Underneath the Bottom Validation Button */
+.pipeline-cadence {
+    margin-bottom: 0 !important;
+    padding-bottom: 2rem !important; /* Clean corporate padding cushion above the footer tracker */
+}
+
+.pipeline-cadence .institutional-note {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+/* 6. Base Component Display Cards and Grid Uniformity */
+.hero-brand-block { margin: 0 auto 1rem auto !important; text-align: center !important; }
+.hero-hourglass-graphic { max-height: 80px !important; width: auto !important; background-color: #ffffff !important; padding: 0.5rem !important; border-radius: 6px !important; }
+.hero-hero .subtitle { max-width: 800px !important; margin: 0 auto 1.2rem auto !important; }
+.stage-card, .defect-card, .matrix-table, .step { background-color: #ffffff !important; border-radius: 8px !important; }
+.defect-grid, .assembly-stages { display: grid !important; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !important; gap: 1.25rem !important; margin-top: 1rem !important; }
+
+/* ==========================================================================
+   THE LOGIC PIPELINE - VIEWPORT BOUNDARY AND BALANCED GUTTER LOCK
+   ========================================================================== */
+
+/* 1. Force Hero Section to Anchor Above the Fold Line */
+.pipeline-hero {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%) !important;
+    color: #ffffff !important;
+    text-align: center !important;
+    border-radius: 8px !important;
+    box-shadow: none !important;
+    filter: none !important;
+    padding: 0 !important;
+    width: 100% !important;
+    
+    /* Pushes all white content sections completely beneath the primary screen view */
+    min-height: calc(100vh - 160px) !important; 
+    
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+
+.pipeline-hero .container {
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+    margin: 0 auto !important;
+    max-width: 1100px !important;
+    width: 100% !important;
+}
+
+/* 2. Recalibrate Vertical Section Gutters (Increased by ~35%) */
+.pipeline-hero {
+    margin: 0 0 2.15rem 0 !important; /* Calibrated spacing under the primary hero block */
+}
+
+.pipeline-structuring,
+.pipeline-registry,
+.pipeline-delivery,
+.pipeline-cadence {
+    background-color: transparent !important;
+    margin: 0 0 2.15rem 0 !important; /* Balanced layout spacing between sections */
+    padding: 0 !important;
+    width: 100% !important;
+}
+
+.pipeline-landing .container {
+    width: 100% !important;
+    max-width: 1100px !important;
+    margin: 0 auto !important;
+    padding-top: 0.7rem !important;    /* Adjusted interior section padding */
+    padding-bottom: 0.7rem !important; /* Adjusted interior section padding */
+    box-sizing: border-box !important;
+}
+
+/* 3. Maintain Compact Cushion for Bottom Button Space */
+.pipeline-cadence {
+    margin-bottom: 0 !important;
+    padding-bottom: 3rem !important; /* Slightly increased breathing room above footer track */
+}
+
+/* ==========================================================================
+   THE LOGIC PIPELINE - VIEWPORT HEIGHT & ACCENT CORRECTION LOCK
+   ========================================================================== */
+
+/* 1. Push White Content Blocks Completely Out of View on Load */
+.pipeline-hero {
+    /* Increased height parameters by an extra half-line block to fully isolate fold lines */
+    min-height: calc(100vh - 145px) !important; 
+}
+
+/* 2. Increase Vertical Distance Between Top Badge and Logo Asset */
+.pipeline-hero .badge {
+    display: inline-block !important;
+    margin-bottom: 2rem !important; /* Pushes the main hourglass logo asset cleanly downwards */
+}
+
+/* 3. Center the Single Primary Scheduling Call-To-Action Button */
+.pipeline-hero .cta-group {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100% !important;
+    margin-top: 1.5rem !important;
+    margin-bottom: 1.5rem !important;
+}
+
+/* 4. Shift Scroll Cue Element Downwards Toward the Base Edge Curve */
+.pipeline-hero .scroll-cue-container {
+    margin-top: 2.5rem !important; /* Displaces text slightly downwards for balanced layouts */
+    margin-bottom: 0 !important;
+}
