@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ title or "Fragment Gallery" }}</title>
     <link rel="stylesheet" href="/css/style.css">
+    <!-- THE LOGIC PIPELINE Conversion Telemetry Engine -->
+    <script src="/assets/js/pipeline-tracking.js" defer></script>
 </head>
 <body>
     <div class="outer-wrapper">
@@ -15,7 +17,7 @@
 
                 {# This is the ONLY place content enters the shell #}
                 <main id="content-panel-container">
-                    {% block main %}{% endblock %}
+                    {% block main %}{{ content | safe }}{% endblock %}
                 </main>   
         </div>
 

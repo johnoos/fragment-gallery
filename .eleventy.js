@@ -43,6 +43,8 @@ eleventyConfig.addFilter("cleanText", (str) => {
   // 2. Ensure the copy behavior is set to "copy" (not "emulated")
   // This physically moves the files so the Dev Server finds them in _site
   eleventyConfig.setServerPassthroughCopyBehavior("copy");
+  // Keeps your backend preview generators running at root level
+  eleventyConfig.addPassthroughCopy("scripts");
 
   return {
     dir: {
